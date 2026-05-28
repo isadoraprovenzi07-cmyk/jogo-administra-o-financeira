@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Controle de Jogo</title>
+    <style>
+        :root { --bg-color: #f2f2f2; --primary: #46178f; --btn-a: #e21b3c; --btn-b: #1368ce; --btn-c: #d89e00; }
+        body { font-family: sans-serif; background-color: var(--bg-color); margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; height: 100vh;}
+        .container { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); width: 100%; max-width: 400px; text-align: center; }
+        input { padding: 15px; font-size: 18px; width: 90%; margin-bottom: 15px; border: 2px solid #ccc; border-radius: 5px; text-align: center;}
+        button.btn-join { padding: 15px; font-size: 18px; width: 100%; border: none; border-radius: 5px; background: var(--primary); color: white; font-weight: bold; }
+        
+        .vote-btn { width: 100%; height: 120px; margin-bottom: 15px; border: none; border-radius: 10px; color: white; font-size: 40px; font-weight: bold; box-shadow: 0 6px 0px rgba(0,0,0,0.2); }
+        .vote-btn:active { transform: translateY(6px); box-shadow: none; }
+        .bg-a { background-color: var(--btn-a); } .bg-b { background-color: var(--btn-b); } .bg-c { background-color: var(--btn-c); }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+
+    <div id="login-screen" class="container">
+        <h2>Entrar no Jogo</h2>
+        <input type="text" id="room-input" placeholder="PIN da Sala" maxlength="4">
+        <input type="text" id="name-input" placeholder="Seu Apelido">
+        <button class="btn-join" onclick="joinGame()">Entrar</button>
+    </div>
+
+    <div id="controller-screen" class="container hidden">
+        <h2>Faça sua Escolha</h2>
+        <p id="status-msg">Preste atenção no telão!</p>
+        <button class="vote-btn bg-a" onclick="sendVote('A')">A</button>
+        <button class="vote-btn bg-b" onclick="sendVote('B')">B</button>
+        <button class="vote-btn bg-c" onclick="sendVote('C')">C</button>
+    </div>
+    <div id="feedback"></div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+    const socket = io();
+
+    let myRoom = '';
+    let alreadyVoted = false;
+
+    // QR CODE
+    const urlParams =
+        new URLSearchParams(window.location.search);
+
+    if(urlParams.has('sala')) {
+
+        document.getElementById('room-input').value =
+            urlParams.get('sala');
+    }
+
+    // ENTRAR
+    function joinGame() {
+
+        myRoom =
+            document.getElementById('room-input').value;
+
+        const name =
+            document.getElementById('name-input').value;
+
+        if(myRoom && name) {
+
+            socket.emit(
+                'entrar_sala',
+                myRoom,
+                name
+            );
+
+            document
+                .getElementById('login-screen')
+                .classList.add('hidden');
+
+            document
+                .getElementById('controller-screen')
+                .classList.remove('hidden');
+
+        } else {
+
+            alert(
+                "Preencha a sala e o seu nome!"
+            );
+        }
+    }
+
+    // VOTO
+    function sendVote(choice) {
+
+        if(alreadyVoted) return;
+
+        alreadyVoted = true;
+
+        socket.emit(
+            'enviar_voto',
+            myRoom,
+            choice
+        );
+
+        const status =
+            document.getElementById('status-msg');
+
+        status.innerText =
+            `Você escolheu ${choice}! Aguarde o resultado...`;
+
+        status.style.color = 'green';
+        status.style.fontWeight = 'bold';
+    }
+
+    // NOVA RODADA
+    socket.on(
+        'nova_rodada_iniciada',
+        () => {
+
+            alreadyVoted = false;
+
+            const status =
+                document.getElementById('status-msg');
+
+            status.innerText =
+                'Faça sua escolha!';
+
+            status.style.color = 'black';
+
+            // LIMPA FEEDBACK ANTIGO
+            document
+                .getElementById('feedback')
+                .innerHTML = '';
+        }
+    );
+
+    // FEEDBACK DA RODADA
+    socket.on(
+        'feedback_recebido',
+        (data) => {
+
+            const valor =
+                data.impacto >= 0
+                ? `+R$${data.impacto}`
+                : `-R$${Math.abs(data.impacto)}`;
+
+            const cor =
+                data.impacto >= 0
+                ? 'green'
+                : 'red';
+
+            document
+                .getElementById('feedback')
+                .innerHTML = `
+
+                <div style="
+                    background:white;
+                    margin-top:20px;
+                    padding:20px;
+                    border-radius:15px;
+                    box-shadow:0 4px 10px rgba(0,0,0,0.1);
+                ">
+
+                    <h2>
+                        📊 Resultado da Rodada
+                    </h2>
+
+                    <h1 style="
+                        color:${cor};
+                        font-size:42px;
+                    ">
+                        ${valor}
+                    </h1>
+
+                    <p style="
+                        font-size:22px;
+                        line-height:1.5;
+                        white-space:pre-line;
+                    ">
+                        ${data.feedback}
+                    </p>
+
+                </div>
+            `;
+        }
+    );
+</script>
