@@ -1,0 +1,1427 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telão: Sobrevivência Financeira</title>
+    <style>
+        :root {
+            --bg-color: #f2f2f2;
+            --primary: #46178f;
+            --btn-a: #e21b3c;
+            --btn-b: #1368ce;
+            --btn-c: #d89e00;
+            --success: #16a34a;
+            --danger: #dc2626;
+            --card: #ffffff;
+            --soft: #eef2ff;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: sans-serif;
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background: var(--card);
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.10);
+            max-width: 980px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        h1, h2, h3 {
+            margin-top: 0;
+            color: var(--primary);
+        }
+
+        button {
+            padding: 12px 22px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 10px;
+            background-color: var(--primary);
+            color: white;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+
+        button:hover {
+            opacity: 0.95;
+        }
+
+        .start-btn {
+            font-size: 20px;
+            padding: 15px 30px;
+        }
+
+        .next-btn {
+            font-size: 18px;
+            padding: 15px 30px;
+            background-color: #22c55e;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .option-card {
+            padding: 16px;
+            border-radius: 12px;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+            min-height: 84px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .bg-a { background-color: var(--btn-a); }
+        .bg-b { background-color: var(--btn-b); }
+        .bg-c { background-color: var(--btn-c); }
+
+        .player-row {
+            background: #f9f9f9;
+            padding: 10px 12px;
+            margin-bottom: 6px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 17px;
+            overflow: hidden;
+            border-radius: 12px;
+        }
+
+        th, td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+            margin: 20px 0;
+            background: var(--soft);
+            padding: 20px;
+            border-radius: 14px;
+            border: 1px solid #c7d2fe;
+        }
+
+        .goal-box {
+            background: #fef3c7;
+            padding: 16px 18px;
+            border-radius: 12px;
+            margin-top: 18px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #7c2d12;
+        }
+
+        .top-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 12px;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .info-pill {
+            background: #f3f4f6;
+            border-radius: 999px;
+            padding: 10px 14px;
+            font-weight: bold;
+            font-size: 16px;
+            color: #111827;
+        }
+
+        .info-pill.center {
+            background: #ede9fe;
+            color: var(--primary);
+            font-size: 18px;
+        }
+
+        .month-week {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        #month-display {
+            font-size: 28px;
+            font-weight: bold;
+            color: var(--primary);
+            text-align: center;
+            flex: 1;
+        }
+
+        #week-display {
+            font-size: 18px;
+            font-weight: bold;
+            min-width: 130px;
+            text-align: left;
+            color: #111827;
+        }
+
+        .bottom-right {
+            min-width: 130px;
+            text-align: right;
+            font-size: 18px;
+            font-weight: bold;
+            color: #111827;
+        }
+
+        .room-area {
+            margin-top: 18px;
+        }
+
+        #qr-code {
+            width: 220px;
+            height: 220px;
+            margin-bottom: 16px;
+            border-radius: 14px;
+            border: 1px solid #e5e7eb;
+            background: white;
+            object-fit: contain;
+        }
+
+        .status-soft {
+            color: #666;
+        }
+
+        .podium-container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            gap: 20px;
+            margin-top: 40px;
+            height: 250px;
+        }
+
+        .podium-place {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 150px;
+            border-radius: 14px 14px 0 0;
+            color: white;
+            padding-top: 20px;
+            font-weight: bold;
+            font-size: 24px;
+            box-shadow: 0 -4px 10px rgba(0,0,0,0.1);
+        }
+
+        .first { background: #fbbf24; height: 100%; }
+        .second { background: #94a3b8; height: 75%; }
+        .third { background: #b45309; height: 50%; }
+
+        .podium-name {
+            margin-bottom: 10px;
+            color: #1e293b;
+            font-size: 18px;
+            position: relative;
+            top: -34px;
+            background: white;
+            padding: 5px 14px;
+            border-radius: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+            max-width: 140px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        @media (max-width: 720px) {
+            .options-grid,
+            .stats-grid,
+            .top-info {
+                grid-template-columns: 1fr;
+            }
+
+            .month-week {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            #week-display,
+            .bottom-right {
+                text-align: center;
+                min-width: auto;
+            }
+
+            #month-display {
+                font-size: 24px;
+            }
+
+            .option-card {
+                min-height: 74px;
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="intro-screen" class="container">
+        <h1>💸 Sobrevivência Financeira</h1>
+
+        <p style="font-size: 20px; color: #333; line-height: 1.4;">
+            Você é um homem com salário fixo, despesas pesadas e um objetivo claro:
+            juntar dinheiro para dar entrada em um carro popular de <strong>R$ 50.000</strong>.
+        </p>
+
+        <div class="stats-grid">
+            <div style="text-align: left;">
+                <h3 style="margin: 0 0 10px 0; color: #333;">Salário Mensal</h3>
+                <p style="color: var(--success); font-weight: bold; font-size: 30px; margin: 0;">R$ 8.000</p>
+            </div>
+            <div style="text-align: right;">
+                <h3 style="margin: 0 0 10px 0; color: #333;">Despesas Fixas</h3>
+                <p style="color: var(--danger); font-weight: bold; font-size: 30px; margin: 0;">- R$ 5.000</p>
+                <small style="color: #666;">(Aluguel, comida, contas, escola)</small>
+            </div>
+        </div>
+
+        <p style="font-size: 18px; margin-bottom: 0;">
+            Após pagar as contas básicas, sobram <strong>R$ 750 por semana</strong>.
+        </p>
+
+        <div class="goal-box">
+            🎯 Objetivo: juntar <strong>R$ 10.000</strong> em 6 meses para dar entrada no carro.
+        </div>
+
+        <hr style="border: 1px solid #ddd; margin: 22px 0;">
+
+        <p style="font-size: 18px; margin-bottom: 8px;">Acessem pelo celular para jogar!</p>
+        <h2 style="font-size: 40px; color: #333; margin-bottom: 12px;">SALA: <span id="room-code">---</span></h2>
+
+        <img id="qr-code" src="" alt="QR Code da sala" style="display:none;">
+        <div id="qr-hint" class="status-soft" style="margin-top: 4px;">Gerando QR Code...</div>
+
+        <h3 style="margin-top: 20px;">Jogadores na Sala: <span id="player-count">0</span></h3>
+        <div id="players-list" style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 20px;"></div>
+
+        <button class="start-btn" onclick="startGame()">Começar o Jogo!</button>
+    </div>
+
+    <div id="game-screen" class="container hidden">
+        <div class="month-week">
+            <div id="week-display">SEMANA 1</div>
+            <div id="month-display">MÊS 1</div>
+            <div class="bottom-right" id="goal-progress">Meta: R$ 20.000</div>
+        </div>
+
+        <h2 id="round-title">Rodada X</h2>
+        <p id="round-desc" style="font-size: 20px; font-weight: bold; color: #333;"></p>
+
+        <div class="options-grid">
+            <div class="option-card bg-a" id="opt-a">A</div>
+            <div class="option-card bg-b" id="opt-b">B</div>
+            <div class="option-card bg-c" id="opt-c">C</div>
+        </div>
+
+        <h3 style="margin-top: 30px;">Status dos Votos: <span id="votes-count">0</span> / <span id="total-players">0</span></h3>
+        <div id="players-votes"></div>
+
+        <button class="next-btn" onclick="processRound()">Encerrar Votação e Enviar Consequências</button>
+    </div>
+
+    <div id="leaderboard-screen" class="container hidden">
+        <h2 id="leaderboard-title">Ranking Atual</h2>
+
+        <div id="podium-area" class="hidden">
+            <div class="podium-container" id="podium-visual"></div>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Posição</th>
+                    <th>Jogador</th>
+                    <th>Saldo na Conta (R$)</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody id="leaderboard-body"></tbody>
+        </table>
+
+        <button id="next-round-btn" class="next-btn" onclick="nextRound()">Ir para Próxima Rodada</button>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+
+        let roomId = '';
+        let players = {};
+        let currentRound = 0;
+
+        const monthlySalary = 8000;
+        const fixedExpenses = 5000;
+        const incomePerRound = 750; // salário livre por semana
+        const carGoal = 10000;
+        const totalMonths = 6;
+        const weeksPerMonth = 4;
+        const totalRounds = totalMonths * weeksPerMonth;
+
+        const rounds = [
+            {
+                title: "Mês 1 - Semana 1: Celular quebrou",
+                desc: "Seu celular de trabalho parou de funcionar do nada.",
+                opts: {
+                    A: "Comprar novo parcelado (-R$700)",
+                    B: "Consertar o atual (-R$300)",
+                    C: "Comprar usado e arriscar (-R$150)"
+                },
+                impacts: { A: -700, B: -300, C: -150 },
+                feedbacks: {
+                    A: "Você resolveu o problema, mas a parcela apertou o orçamento.",
+                    B: "Boa escolha. Você economizou e resolveu de forma equilibrada.",
+                    C: "O barato saiu caro. O aparelho usado deu problema logo depois."
+                }
+            },
+            {
+                title: "Mês 1 - Semana 2: Aniversário do amigo",
+                desc: "Seu melhor amigo chamou para uma comemoração.",
+                opts: {
+                    A: "Dar presentão e ir ao restaurante (-R$600)",
+                    B: "Levar um presente simples (-R$200)",
+                    C: "Inventar desculpa e não ir (R$0)"
+                },
+                impacts: { A: -600, B: -200, C: 0 },
+                feedbacks: {
+                    A: "A festa foi boa, mas o cartão sentiu.",
+                    B: "Você marcou presença sem exagerar nos gastos.",
+                    C: "Você economizou, mas ficou com fama de sumido."
+                }
+            },
+            {
+                title: "Mês 1 - Semana 3: Reserva de emergência",
+                desc: "Você decidiu separar uma parte do dinheiro para o futuro.",
+                opts: {
+                    A: "Guardar R$500 no banco (-R$500)",
+                    B: "Guardar R$200 no banco (-R$200)",
+                    C: "Gastar em lazer (R$0)"
+                },
+                impacts: { A: -500, B: -200, C: 0 },
+                feedbacks: {
+                    A: "Ótimo! Você começou a montar sua reserva.",
+                    B: "É um começo. Melhor do que nada.",
+                    C: "Você preferiu viver o momento."
+                }
+            },
+            {
+                title: "Mês 1 - Semana 4: Vazamento no banheiro",
+                desc: "A conta de água veio muito acima do normal.",
+                opts: {
+                    A: "Chamar encanador urgente (-R$450)",
+                    B: "Tentar arrumar sozinho (-R$100)",
+                    C: "Ignorar por enquanto (R$0)"
+                },
+                impacts: { A: -450, B: -300, C: -900 },
+                feedbacks: {
+                    A: "Problema resolvido rápido e com menos dor de cabeça.",
+                    B: "Você tentou economizar, mas o reparo saiu pior.",
+                    C: "Ignorar só fez o estrago crescer."
+                }
+            },
+            {
+                title: "Mês 2 - Semana 1: Promoção da TV",
+                desc: "A TV dos sonhos apareceu com desconto.",
+                opts: {
+                    A: "Comprar à vista (-R$900)",
+                    B: "Parcelar no cartão (-R$300)",
+                    C: "Fechar o site (R$0)"
+                },
+                impacts: { A: -900, B: -300, C: 0 },
+                feedbacks: {
+                    A: "Você comprou, mas quase saiu do orçamento.",
+                    B: "Parcelar pareceu leve agora, mas pesa depois.",
+                    C: "Você resistiu à tentação."
+                }
+            },
+            {
+                title: "Mês 2 - Semana 2: Curso profissionalizante",
+                desc: "Surgiu a chance de investir na carreira.",
+                opts: {
+                    A: "Fazer o curso completo (-R$400)",
+                    B: "Comprar só os livros (-R$100)",
+                    C: "Não fazer nada (R$0)"
+                },
+                impacts: { A: 200, B: -100, C: 0 },
+                feedbacks: {
+                    A: "O curso te ajudou a ganhar uma pequena promoção.",
+                    B: "Você aprendeu um pouco, mas não o suficiente para mudar tudo.",
+                    C: "Nada mudou na sua renda."
+                }
+            },
+            {
+                title: "Mês 2 - Semana 3: Cansaço e delivery",
+                desc: "A semana foi puxada e ninguém quis cozinhar.",
+                opts: {
+                    A: "Delivery todo dia (-R$800)",
+                    B: "Cozinhar em casa (-R$250)",
+                    C: "Comprar marmitas prontas (-R$500)"
+                },
+                impacts: { A: -800, B: -250, C: -500 },
+                feedbacks: {
+                    A: "Praticidade cara. O motoboy virou visita constante.",
+                    B: "Muito melhor para o bolso.",
+                    C: "Equilíbrio entre tempo e dinheiro."
+                }
+            },
+            {
+                title: "Mês 2 - Semana 4: Impostos e boletos",
+                desc: "Uma pilha de contas chegou de uma vez.",
+                opts: {
+                    A: "Pagar à vista com desconto (-R$700)",
+                    B: "Parcelar (-R$250)",
+                    C: "Atrasar e pagar com juros (-R$900)"
+                },
+                impacts: { A: -700, B: -250, C: -900 },
+                feedbacks: {
+                    A: "Doeu agora, mas você evitou juros.",
+                    B: "Parcelar deixou o mês mais leve.",
+                    C: "Atrasar saiu muito caro."
+                }
+            },
+            {
+                title: "Mês 3 - Semana 1: Dinheiro inesperado",
+                desc: "Você recebeu um estorno do cartão.",
+                opts: {
+                    A: "Gastar no shopping (-R$200)",
+                    B: "Investir (+R$200)",
+                    C: "Guardar na conta (+R$200)"
+                },
+                impacts: { A: -200, B: 250, C: 200 },
+                feedbacks: {
+                    A: "O dinheiro entrou e saiu rapidinho.",
+                    B: "Boa! Seu dinheiro rendeu um pouco mais.",
+                    C: "Você ficou com o valor parado e seguro."
+                }
+            },
+            {
+                title: "Mês 3 - Semana 2: Fatura do cartão",
+                desc: "A fatura veio maior do que o esperado.",
+                opts: {
+                    A: "Pagar o total (-R$1000)",
+                    B: "Pagar o mínimo (-R$300)",
+                    C: "Parcelar a fatura (-R$700)"
+                },
+                impacts: { A: -1000, B: -300, C: -700 },
+                feedbacks: {
+                    A: "Você limpou a fatura e evitou juros.",
+                    B: "Erro perigoso: os juros rotativos explodiram depois.",
+                    C: "Você deixou a dívida espalhada nos próximos meses."
+                }
+            },
+            {
+                title: "Mês 3 - Semana 3: Saúde",
+                desc: "O médico disse para cuidar melhor do corpo.",
+                opts: {
+                    A: "Academia chique (-R$600)",
+                    B: "Academia de bairro (-R$100)",
+                    C: "Caminhar no parque (R$0)"
+                },
+                impacts: { A: -600, B: -100, C: 0 },
+                feedbacks: {
+                    A: "Boa intenção, mas o preço foi alto.",
+                    B: "Você encontrou um meio-termo bom.",
+                    C: "Saúde sem custo."
+                }
+            },
+            {
+                title: "Mês 3 - Semana 4: Viagem de feriado",
+                desc: "A família quer sair da rotina.",
+                opts: {
+                    A: "Alugar casa na praia (-R$700)",
+                    B: "Bate-volta (-R$250)",
+                    C: "Ficar na cidade (R$0)"
+                },
+                impacts: { A: -700, B: -250, C: 0 },
+                feedbacks: {
+                    A: "A viagem foi ótima, mas cara.",
+                    B: "Você conseguiu descansar sem gastar tanto.",
+                    C: "Você economizou e ficou em casa."
+                }
+            },
+            {
+                title: "Mês 4 - Semana 1: Carro fazendo barulho",
+                desc: "O transporte começou a apresentar problemas.",
+                opts: {
+                    A: "Revisão completa preventiva (-R$800)",
+                    B: "Trocar só o óleo (-R$200)",
+                    C: "Ignorar o problema (R$0)"
+                },
+                impacts: { A: -800, B: -200, C: -1500 },
+                feedbacks: {
+                    A: "Carro seguro e revisado.",
+                    B: "Você economizou hoje, mas pode pagar caro depois.",
+                    C: "O problema piorou muito."
+                }
+            },
+            {
+                title: "Mês 4 - Semana 2: Assinaturas",
+                desc: "Você percebeu vários serviços cobrando todo mês.",
+                opts: {
+                    A: "Manter tudo (-R$250)",
+                    B: "Cancelar metade (-R$80)",
+                    C: "Cancelar tudo (R$0)"
+                },
+                impacts: { A: -250, B: -80, C: 0 },
+                feedbacks: {
+                    A: "Conforto custa caro.",
+                    B: "Você limpou boa parte do gasto invisível.",
+                    C: "Você ficou mais econômico."
+                }
+            },
+            {
+                title: "Mês 4 - Semana 3: Oportunidade de renda extra",
+                desc: "Surgiu a chance de fazer um bico no fim de semana.",
+                opts: {
+                    A: "Aceitar o bico (+R$500)",
+                    B: "Aceitar meio período (+R$250)",
+                    C: "Descansar (R$0)"
+                },
+                impacts: { A: 500, B: 250, C: 0 },
+                feedbacks: {
+                    A: "Você ganhou uma boa renda extra.",
+                    B: "Entrou um dinheiro a mais sem muita pressão.",
+                    C: "Você preferiu descansar."
+                }
+            },
+            {
+                title: "Mês 4 - Semana 4: Multa de trânsito",
+                desc: "Uma surpresa desagradável apareceu no aplicativo do banco.",
+                opts: {
+                    A: "Pagar a multa (-R$500)",
+                    B: "Recorrer (-R$100)",
+                    C: "Ignorar (R$0)"
+                },
+                impacts: { A: -500, B: -150, C: -700 },
+                feedbacks: {
+                    A: "Você resolveu logo e seguiu em frente.",
+                    B: "O recurso não deu certo, mas amenizou um pouco.",
+                    C: "Ignorar só aumentou a dor de cabeça."
+                }
+            },
+            {
+                title: "Mês 5 - Semana 1: Geladeira queimou",
+                desc: "A geladeira da casa parou de funcionar.",
+                opts: {
+                    A: "Comprar uma nova (-R$1200)",
+                    B: "Consertar a antiga (-R$500)",
+                    C: "Esperar mais um pouco (R$0)"
+                },
+                impacts: { A: -1200, B: -500, C: -1800 },
+                feedbacks: {
+                    A: "Você resolveu, mas a conta ficou pesada.",
+                    B: "Boa solução intermediária.",
+                    C: "Esperar aumentou o prejuízo."
+                }
+            },
+            {
+                title: "Mês 5 - Semana 2: Pequeno bônus",
+                desc: "Seu chefe reconheceu seu esforço.",
+                opts: {
+                    A: "Guardar tudo (+R$600)",
+                    B: "Gastar metade (+R$300)",
+                    C: "Torrar em comida (+R$0)"
+                },
+                impacts: { A: 600, B: 300, C: 0 },
+                feedbacks: {
+                    A: "Ótimo! Mais dinheiro para a meta.",
+                    B: "Você aproveitou um pouco e ainda guardou.",
+                    C: "O bônus evaporou."
+                }
+            },
+            {
+                title: "Mês 5 - Semana 3: Escola das crianças",
+                desc: "Veio uma despesa inesperada da escola.",
+                opts: {
+                    A: "Pagar tudo (-R$650)",
+                    B: "Negociar o valor (-R$300)",
+                    C: "Adiar (R$0)"
+                },
+                impacts: { A: -650, B: -300, C: -900 },
+                feedbacks: {
+                    A: "Você quitou a conta.",
+                    B: "Negociação ajudou bastante.",
+                    C: "Adiar saiu caro no mês seguinte."
+                }
+            },
+            {
+                title: "Mês 5 - Semana 4: Chuva forte",
+                desc: "A chuva trouxe prejuízos em casa.",
+                opts: {
+                    A: "Chamar manutenção (-R$700)",
+                    B: "Remendar o problema (-R$250)",
+                    C: "Esperar secar (R$0)"
+                },
+                impacts: { A: -700, B: -250, C: -1100 },
+                feedbacks: {
+                    A: "Você resolveu de forma segura.",
+                    B: "Você gastou menos agora.",
+                    C: "O problema piorou com o tempo."
+                }
+            },
+            {
+                title: "Mês 6 - Semana 1: Um investimento arriscado",
+                desc: "Últimos meses e você quer acelerar a meta.",
+                opts: {
+                    A: "Investir alto (+R$900 / risco)",
+                    B: "Investir pouco (+R$250)",
+                    C: "Não mexer no dinheiro (R$0)"
+                },
+                impacts: { A: 900, B: 250, C: 0 },
+                feedbacks: {
+                    A: "Você arriscou e dessa vez deu certo.",
+                    B: "Pequeno avanço com menos risco.",
+                    C: "Você manteve a segurança."
+                }
+            },
+            {
+                title: "Mês 6 - Semana 2: Pet doente",
+                desc: "Um gasto emocional e financeiro apareceu.",
+                opts: {
+                    A: "Veterinário completo (-R$800)",
+                    B: "Remédio e observação (-R$250)",
+                    C: "Esperar melhorar sozinho (R$0)"
+                },
+                impacts: { A: -800, B: -250, C: -1300 },
+                feedbacks: {
+                    A: "Você cuidou bem do pet, mas foi caro.",
+                    B: "Você reduziu o prejuízo.",
+                    C: "Esperar piorou a situação."
+                }
+            },
+            {
+                title: "Mês 6 - Semana 3: Último fôlego",
+                desc: "Falta pouco para fechar a meta.",
+                opts: {
+                    A: "Fazer um bico pesado (+R$700)",
+                    B: "Economizar ao máximo (+R$200)",
+                    C: "Descansar e torcer (R$0)"
+                },
+                impacts: { A: 700, B: 200, C: 0 },
+                feedbacks: {
+                    A: "Você acelerou a reta final.",
+                    B: "Cada centavo ajudou.",
+                    C: "Você não mexeu no saldo."
+                }
+            },
+            {
+                title: "Mês 6 - Semana 4: Hora de fechar a conta",
+                desc: "A última semana chegou. Tudo depende do que sobrou.",
+                opts: {
+                    A: "Guardar tudo para a meta (+R$500)",
+                    B: "Gastar em conforto (-R$300)",
+                    C: "Manter a reserva (R$0)"
+                },
+                impacts: { A: 500, B: -300, C: 0 },
+                feedbacks: {
+                    A: "Você priorizou o objetivo até o fim.",
+                    B: "O conforto custou caro no último momento.",
+                    C: "Você fechou com cautela."
+                }
+            }
+        ];
+
+        // Gera a sala automaticamente quando a página abre
+        socket.emit('criar_sala');
+
+        socket.on('sala_criada', ({ roomId: createdRoomId, qrDataUrl }) => {
+            roomId = createdRoomId;
+            document.getElementById('room-code').innerText = roomId;
+
+            const qrImg = document.getElementById('qr-code');
+            qrImg.src = qrDataUrl;
+            qrImg.style.display = 'block';
+
+            document.getElementById('qr-hint').innerText = 'Escaneie para entrar na sala.';
+        });
+
+        socket.on('qr_erro', (msg) => {
+            document.getElementById('qr-hint').innerText = msg;
+        });
+
+        socket.on('novo_jogador', (player) => {
+            players[player.id] = {
+                name: player.name,
+                balance: 0,
+                currentVote: null
+            };
+
+            document.getElementById('players-list').innerHTML +=
+                `<span style="background: var(--primary); color: white; padding: 8px 12px; border-radius: 999px;">${player.name}</span>`;
+
+            document.getElementById('player-count').innerText = Object.keys(players).length;
+            document.getElementById('total-players').innerText = Object.keys(players).length;
+        });
+
+        socket.on('voto_recebido', (data) => {
+            if (players[data.id]) {
+                players[data.id].currentVote = data.vote;
+                updateVotes();
+            }
+        });
+
+        function showScreen(id) {
+            document.querySelectorAll('.container').forEach(el => el.classList.add('hidden'));
+            document.getElementById(id).classList.remove('hidden');
+        }
+
+        function startGame() {
+            if (!roomId) {
+                alert("A sala ainda está sendo criada. Aguarde o QR Code aparecer.");
+                return;
+            }
+
+            if (Object.keys(players).length === 0) {
+                alert("Espere alguém entrar!");
+                return;
+            }
+
+            currentRound = 0;
+            loadRound();
+        }
+
+        function getMonthAndWeek(round) {
+            return {
+                month: Math.floor(round / 4) + 1,
+                week: (round % 4) + 1
+            };
+        }
+
+        function loadRound() {
+            if (currentRound >= rounds.length) return endGame();
+
+            socket.emit('nova_rodada', roomId);
+
+            Object.keys(players).forEach(id => players[id].currentVote = null);
+            updateVotes();
+
+            const round = rounds[currentRound];
+            const time = getMonthAndWeek(currentRound);
+
+            document.getElementById('month-display').innerText = `MÊS ${time.month}`;
+            document.getElementById('week-display').innerText = `SEMANA ${time.week}`;
+            document.getElementById('goal-progress').innerText = `Meta: R$ ${carGoal.toLocaleString('pt-BR')}`;
+
+            document.getElementById('round-title').innerText = round.title;
+            document.getElementById('round-desc').innerText = round.desc;
+            document.getElementById('opt-a').innerText = round.opts.A;
+            document.getElementById('opt-b').innerText = round.opts.B;
+            document.getElementById('opt-c').innerText = round.opts.C;
+
+            showScreen('game-screen');
+        }
+
+        function updateVotes() {
+            let votosFeitos = 0;
+            const votesDiv = document.getElementById('players-votes');
+            votesDiv.innerHTML = '';
+
+            Object.values(players).forEach(p => {
+                const status = p.currentVote ? '✅ Votou' : '⏳ Pensando...';
+                if (p.currentVote) votosFeitos++;
+                votesDiv.innerHTML += `
+                    <div class="player-row">
+                        <span><strong>${p.name}</strong></span>
+                        <span>${status}</span>
+                    </div>
+                `;
+            });
+
+            document.getElementById('votes-count').innerText = votosFeitos;
+        }
+
+        function formatMoney(value) {
+    const sign = value >= 0 ? "+R$" : "-R$";
+    return sign + Math.abs(value).toFixed(2);
+}
+
+function getRelatedConsequence(round, choice) {
+    const title = round.title.toLowerCase();
+
+    const rules = [
+        {
+            key: "celular",
+            A: [
+                { chance: 0.65, valor: 0, texto: "📱 O celular novo funcionou bem. Nenhum gasto extra." },
+                { chance: 0.35, valor: -200, texto: "📱 A parcela veio com taxa de serviço. Você perdeu mais R$200." }
+            ],
+            B: [
+                { chance: 0.70, valor: 0, texto: "🔧 O conserto resolveu o problema. Nenhum gasto extra." },
+                { chance: 0.30, valor: -250, texto: "🔧 A assistência achou outra peça quebrada. Você perdeu mais R$250." }
+            ],
+            C: [
+                { chance: 0.45, valor: 0, texto: "📱 O usado funcionou por enquanto. Nenhum gasto extra." },
+                { chance: 0.55, valor: -400, texto: "📱 O usado deu defeito rápido. Você perdeu mais R$400." }
+            ]
+        },
+        {
+            key: "aniversário",
+            A: [
+                { chance: 0.60, valor: 0, texto: "🎉 A comemoração saiu exatamente como planejado." },
+                { chance: 0.40, valor: -250, texto: "🎉 A conta do restaurante ficou maior que o esperado. Você perdeu mais R$250." }
+            ],
+            B: [
+                { chance: 0.75, valor: 0, texto: "🎁 O presente simples foi suficiente. Nenhum gasto extra." },
+                { chance: 0.25, valor: -100, texto: "🎁 Você acabou comprando algo a mais de última hora. Perdeu mais R$100." }
+            ],
+            C: [
+                { chance: 0.80, valor: 0, texto: "🏠 Você não foi e não gastou nada." },
+                { chance: 0.20, valor: -80, texto: "📞 Para compensar, você mandou um mimo depois. Perdeu R$80." }
+            ]
+        },
+        {
+            key: "reserva",
+            A: [
+                { chance: 0.80, valor: 0, texto: "🏦 O dinheiro ficou guardado sem problemas." },
+                { chance: 0.20, valor: -100, texto: "🏦 Você precisou usar uma pequena parte da reserva. Perdeu R$100." }
+            ],
+            B: [
+                { chance: 0.80, valor: 0, texto: "🏦 Você conseguiu manter o dinheiro guardado." },
+                { chance: 0.20, valor: -80, texto: "🏦 Surgiu um gasto pequeno e você usou parte do valor. Perdeu R$80." }
+            ],
+            C: [
+                { chance: 0.55, valor: 0, texto: "🍔 O lazer ficou dentro do planejado." },
+                { chance: 0.45, valor: -200, texto: "🍔 O passeio saiu mais caro que parecia. Você perdeu mais R$200." }
+            ]
+        },
+        {
+            key: "vazamento",
+            A: [
+                { chance: 0.75, valor: 0, texto: "🚿 O encanador resolveu tudo." },
+                { chance: 0.25, valor: -150, texto: "🚿 Faltou uma peça extra. Você perdeu mais R$150." }
+            ],
+            B: [
+                { chance: 0.40, valor: 0, texto: "🔧 Seu conserto caseiro segurou o problema." },
+                { chance: 0.60, valor: -400, texto: "🔧 O remendo falhou e o vazamento piorou. Você perdeu mais R$400." }
+            ],
+            C: [
+                { chance: 0.25, valor: 0, texto: "🚿 Por sorte, o vazamento não piorou nesta semana." },
+                { chance: 0.75, valor: -600, texto: "🚿 Ignorar aumentou a conta de água. Você perdeu mais R$600." }
+            ]
+        },
+        {
+            key: "tv",
+            A: [
+                { chance: 0.65, valor: 0, texto: "📺 A compra ficou no valor anunciado." },
+                { chance: 0.35, valor: -200, texto: "📺 Veio taxa de entrega e instalação. Você perdeu mais R$200." }
+            ],
+            B: [
+                { chance: 0.50, valor: 0, texto: "💳 A parcela coube no orçamento desta semana." },
+                { chance: 0.50, valor: -300, texto: "💳 O cartão cobrou juros no parcelamento. Você perdeu mais R$300." }
+            ],
+            C: [
+                { chance: 0.90, valor: 0, texto: "✅ Você não comprou e manteve o dinheiro." },
+                { chance: 0.10, valor: -100, texto: "🛒 Você acabou comprando outro item menor. Perdeu R$100." }
+            ]
+        },
+        {
+            key: "curso",
+            A: [
+                { chance: 0.65, valor: 0, texto: "📚 O curso ajudou como esperado." },
+                { chance: 0.35, valor: -200, texto: "📚 Você precisou pagar material extra. Perdeu R$200." }
+            ],
+            B: [
+                { chance: 0.60, valor: 0, texto: "📖 Os livros foram suficientes para estudar." },
+                { chance: 0.40, valor: -150, texto: "📖 Faltou conteúdo e você comprou material complementar. Perdeu R$150." }
+            ],
+            C: [
+                { chance: 0.85, valor: 0, texto: "Você não gastou nada." },
+                { chance: 0.15, valor: -100, texto: "Você perdeu uma pequena oportunidade de renda extra. Impacto de R$100." }
+            ]
+        },
+        {
+            key: "delivery",
+            A: [
+                { chance: 0.45, valor: 0, texto: "🍔 O delivery ficou no valor planejado." },
+                { chance: 0.55, valor: -250, texto: "🍔 Taxas e pedidos extras aumentaram o gasto. Você perdeu mais R$250." }
+            ],
+            B: [
+                { chance: 0.80, valor: 0, texto: "🍲 Cozinhar em casa deu certo." },
+                { chance: 0.20, valor: -100, texto: "🍲 Faltaram ingredientes e você comprou mais coisas. Perdeu R$100." }
+            ],
+            C: [
+                { chance: 0.65, valor: 0, texto: "🥘 As marmitas ficaram dentro do combinado." },
+                { chance: 0.35, valor: -150, texto: "🥘 Você precisou complementar algumas refeições. Perdeu mais R$150." }
+            ]
+        },
+        {
+            key: "impostos",
+            A: [
+                { chance: 0.85, valor: 0, texto: "🧾 Você pagou à vista e ficou livre." },
+                { chance: 0.15, valor: -100, texto: "🧾 Apareceu uma taxa pequena atrasada. Perdeu R$100." }
+            ],
+            B: [
+                { chance: 0.70, valor: 0, texto: "🧾 A parcela coube no orçamento." },
+                { chance: 0.30, valor: -200, texto: "🧾 Outra parcela acumulou junto. Você perdeu mais R$200." }
+            ],
+            C: [
+                { chance: 0.25, valor: 0, texto: "🧾 Por enquanto, nada aconteceu." },
+                { chance: 0.75, valor: -500, texto: "🧾 Vieram juros e multa. Você perdeu mais R$500." }
+            ]
+        },
+        {
+            key: "estorno",
+            A: [
+                { chance: 0.50, valor: 0, texto: "🛍️ Você gastou só o previsto." },
+                { chance: 0.50, valor: -200, texto: "🛍️ No shopping, comprou mais do que planejava. Perdeu mais R$200." }
+            ],
+            B: [
+                { chance: 0.75, valor: 0, texto: "📈 O investimento se manteve." },
+                { chance: 0.25, valor: -100, texto: "📉 O investimento oscilou para baixo. Perdeu R$100." }
+            ],
+            C: [
+                { chance: 0.90, valor: 0, texto: "🏦 O dinheiro ficou seguro na conta." },
+                { chance: 0.10, valor: -50, texto: "🏦 Uma tarifa bancária comeu parte do valor. Perdeu R$50." }
+            ]
+        },
+        {
+            key: "cartão",
+            A: [
+                { chance: 0.90, valor: 0, texto: "💳 Você pagou tudo e evitou juros." },
+                { chance: 0.10, valor: -100, texto: "💳 Ainda apareceu uma taxa pequena. Perdeu R$100." }
+            ],
+            B: [
+                { chance: 0.20, valor: 0, texto: "💳 Por sorte, o impacto não veio nesta semana." },
+                { chance: 0.80, valor: -800, texto: "💳 O mínimo gerou juros altos. Você perdeu mais R$800." }
+            ],
+            C: [
+                { chance: 0.45, valor: 0, texto: "💳 O parcelamento segurou o problema por enquanto." },
+                { chance: 0.55, valor: -400, texto: "💳 Os juros do parcelamento pesaram. Você perdeu mais R$400." }
+            ]
+        },
+        {
+            key: "saúde",
+            A: [
+                { chance: 0.55, valor: 0, texto: "🏋️ O plano ficou no valor combinado." },
+                { chance: 0.45, valor: -200, texto: "🏋️ Teve taxa de matrícula. Você perdeu mais R$200." }
+            ],
+            B: [
+                { chance: 0.80, valor: 0, texto: "🏃 A academia de bairro foi uma boa escolha." },
+                { chance: 0.20, valor: -80, texto: "🏃 Você comprou itens extras para treinar. Perdeu R$80." }
+            ],
+            C: [
+                { chance: 0.90, valor: 0, texto: "🌳 Caminhar no parque não custou nada." },
+                { chance: 0.10, valor: -50, texto: "🌳 Você gastou com transporte e água no passeio. Perdeu R$50." }
+            ]
+        },
+        {
+            key: "viagem",
+            A: [
+                { chance: 0.45, valor: 0, texto: "🏖️ A viagem saiu no valor planejado." },
+                { chance: 0.55, valor: -400, texto: "🏖️ Combustível, comida e taxas deixaram tudo mais caro. Perdeu mais R$400." }
+            ],
+            B: [
+                { chance: 0.70, valor: 0, texto: "🚗 O bate-volta funcionou." },
+                { chance: 0.30, valor: -150, texto: "🚗 Teve gasto extra com estacionamento e lanche. Perdeu R$150." }
+            ],
+            C: [
+                { chance: 0.85, valor: 0, texto: "🏠 Ficar na cidade manteve seu dinheiro." },
+                { chance: 0.15, valor: -100, texto: "🏠 Mesmo ficando, vocês gastaram com um passeio local. Perdeu R$100." }
+            ]
+        },
+        {
+            key: "carro fazendo barulho",
+            A: [
+                { chance: 0.75, valor: 0, texto: "🔧 A revisão evitou problema maior." },
+                { chance: 0.25, valor: -300, texto: "🔧 A revisão achou outra peça ruim. Você perdeu mais R$300." }
+            ],
+            B: [
+                { chance: 0.45, valor: 0, texto: "🛢️ Trocar o óleo segurou por enquanto." },
+                { chance: 0.55, valor: -700, texto: "🛢️ O problema era maior que óleo. Você perdeu mais R$700." }
+            ],
+            C: [
+                { chance: 0.20, valor: 0, texto: "🚗 Por sorte, o carro aguentou mais uma semana." },
+                { chance: 0.80, valor: -1200, texto: "🚗 Ignorar o barulho gerou conserto caro. Você perdeu mais R$1200." }
+            ]
+        },
+        {
+            key: "assinaturas",
+            A: [
+                { chance: 0.70, valor: 0, texto: "📺 As assinaturas cobraram o valor normal." },
+                { chance: 0.30, valor: -100, texto: "📺 Uma assinatura subiu de preço. Você perdeu mais R$100." }
+            ],
+            B: [
+                { chance: 0.80, valor: 0, texto: "✂️ Cancelar metade reduziu os gastos." },
+                { chance: 0.20, valor: -50, texto: "✂️ Uma cobrança ainda veio antes do cancelamento. Perdeu R$50." }
+            ],
+            C: [
+                { chance: 0.90, valor: 0, texto: "✅ Cancelar tudo funcionou." },
+                { chance: 0.10, valor: -50, texto: "✅ Uma última cobrança ainda caiu. Perdeu R$50." }
+            ]
+        },
+        {
+            key: "renda extra",
+            A: [
+                { chance: 0.70, valor: 0, texto: "💼 O bico pagou o combinado." },
+                { chance: 0.30, valor: -250, texto: "💼 O cliente pagou menos que prometeu. Você perdeu R$250 do ganho." }
+            ],
+            B: [
+                { chance: 0.80, valor: 0, texto: "💼 O meio período deu certo." },
+                { chance: 0.20, valor: -100, texto: "💼 O pagamento veio menor. Você perdeu R$100 do ganho." }
+            ],
+            C: [
+                { chance: 1, valor: 0, texto: "😴 Você descansou e não teve gasto extra." }
+            ]
+        },
+        {
+            key: "multa",
+            A: [
+                { chance: 0.85, valor: 0, texto: "🚗 Você pagou e resolveu." },
+                { chance: 0.15, valor: -100, texto: "🚗 Havia taxa administrativa junto. Perdeu R$100." }
+            ],
+            B: [
+                { chance: 0.50, valor: 0, texto: "📄 O recurso ainda está em análise." },
+                { chance: 0.50, valor: -300, texto: "📄 O recurso foi negado e veio cobrança extra. Perdeu R$300." }
+            ],
+            C: [
+                { chance: 0.20, valor: 0, texto: "🚗 Por enquanto nada aconteceu." },
+                { chance: 0.80, valor: -600, texto: "🚗 Ignorar gerou multa maior. Perdeu R$600." }
+            ]
+        },
+        {
+            key: "geladeira",
+            A: [
+                { chance: 0.70, valor: 0, texto: "❄️ A geladeira nova resolveu tudo." },
+                { chance: 0.30, valor: -250, texto: "❄️ Entrega e instalação custaram mais. Perdeu R$250." }
+            ],
+            B: [
+                { chance: 0.55, valor: 0, texto: "🔧 O conserto funcionou." },
+                { chance: 0.45, valor: -500, texto: "🔧 O conserto não durou e precisou de nova peça. Perdeu R$500." }
+            ],
+            C: [
+                { chance: 0.15, valor: 0, texto: "❄️ Você conseguiu improvisar por uma semana." },
+                { chance: 0.85, valor: -900, texto: "❄️ Alimentos estragaram e o problema piorou. Perdeu R$900." }
+            ]
+        },
+        {
+            key: "bônus",
+            A: [
+                { chance: 0.90, valor: 0, texto: "💰 Você guardou o bônus." },
+                { chance: 0.10, valor: -100, texto: "💰 Uma pequena taxa caiu na conta. Perdeu R$100." }
+            ],
+            B: [
+                { chance: 0.70, valor: 0, texto: "💰 Você gastou só metade mesmo." },
+                { chance: 0.30, valor: -150, texto: "💰 Acabou gastando um pouco além do planejado. Perdeu R$150." }
+            ],
+            C: [
+                { chance: 0.50, valor: 0, texto: "🍔 O bônus foi gasto como planejado." },
+                { chance: 0.50, valor: -200, texto: "🍔 O rolê ficou maior que o bônus. Perdeu mais R$200." }
+            ]
+        },
+        {
+            key: "escola",
+            A: [
+                { chance: 0.80, valor: 0, texto: "🏫 Você quitou a despesa escolar." },
+                { chance: 0.20, valor: -150, texto: "🏫 Veio uma taxa de material junto. Perdeu R$150." }
+            ],
+            B: [
+                { chance: 0.65, valor: 0, texto: "🏫 A negociação funcionou." },
+                { chance: 0.35, valor: -200, texto: "🏫 A escola aceitou negociar só parte. Perdeu mais R$200." }
+            ],
+            C: [
+                { chance: 0.20, valor: 0, texto: "🏫 A cobrança ficou para depois." },
+                { chance: 0.80, valor: -600, texto: "🏫 Adiar gerou multa e cobrança extra. Perdeu R$600." }
+            ]
+        },
+        {
+            key: "chuva",
+            A: [
+                { chance: 0.75, valor: 0, texto: "🌧️ A manutenção resolveu o problema." },
+                { chance: 0.25, valor: -250, texto: "🌧️ A manutenção encontrou outro dano. Perdeu R$250." }
+            ],
+            B: [
+                { chance: 0.50, valor: 0, texto: "🌧️ O remendo segurou por enquanto." },
+                { chance: 0.50, valor: -500, texto: "🌧️ O remendo não segurou e a infiltração voltou. Perdeu R$500." }
+            ],
+            C: [
+                { chance: 0.15, valor: 0, texto: "🌧️ Por sorte, nada piorou nesta semana." },
+                { chance: 0.85, valor: -800, texto: "🌧️ Esperar causou mais dano. Perdeu R$800." }
+            ]
+        },
+        {
+            key: "investimento",
+            A: [
+                { chance: 0.45, valor: 0, texto: "📈 O investimento alto manteve o ganho." },
+                { chance: 0.55, valor: -1000, texto: "📉 O investimento caiu forte. Você perdeu R$1000 do resultado." }
+            ],
+            B: [
+                { chance: 0.75, valor: 0, texto: "📈 O investimento pequeno ficou estável." },
+                { chance: 0.25, valor: -200, texto: "📉 O investimento oscilou um pouco. Perdeu R$200." }
+            ],
+            C: [
+                { chance: 1, valor: 0, texto: "🏦 Você não arriscou e manteve o dinheiro." }
+            ]
+        },
+        {
+            key: "pet",
+            A: [
+                { chance: 0.70, valor: 0, texto: "🐾 O tratamento resolveu." },
+                { chance: 0.30, valor: -250, texto: "🐾 Foram necessários exames extras. Perdeu R$250." }
+            ],
+            B: [
+                { chance: 0.45, valor: 0, texto: "🐾 O remédio ajudou." },
+                { chance: 0.55, valor: -500, texto: "🐾 O remédio não bastou e precisou de consulta. Perdeu R$500." }
+            ],
+            C: [
+                { chance: 0.15, valor: 0, texto: "🐾 O pet melhorou sozinho desta vez." },
+                { chance: 0.85, valor: -900, texto: "🐾 Esperar piorou o quadro. Perdeu R$900." }
+            ]
+        },
+        {
+            key: "último fôlego",
+            A: [
+                { chance: 0.65, valor: 0, texto: "💪 O bico pesado pagou certo." },
+                { chance: 0.35, valor: -300, texto: "💪 O pagamento atrasou parte do combinado. Perdeu R$300 do ganho." }
+            ],
+            B: [
+                { chance: 0.80, valor: 0, texto: "🪙 Você conseguiu economizar como planejou." },
+                { chance: 0.20, valor: -100, texto: "🪙 Um gasto pequeno apareceu. Perdeu R$100." }
+            ],
+            C: [
+                { chance: 1, valor: 0, texto: "😴 Você descansou e não alterou o saldo." }
+            ]
+        },
+        {
+            key: "fechar a conta",
+            A: [
+                { chance: 0.85, valor: 0, texto: "🎯 Você guardou tudo como planejado." },
+                { chance: 0.15, valor: -100, texto: "🎯 Uma taxa pequena apareceu no fechamento. Perdeu R$100." }
+            ],
+            B: [
+                { chance: 0.50, valor: 0, texto: "🛋️ O conforto ficou no valor combinado." },
+                { chance: 0.50, valor: -250, texto: "🛋️ O gasto com conforto passou do planejado. Perdeu mais R$250." }
+            ],
+            C: [
+                { chance: 1, valor: 0, texto: "🏦 Você manteve a reserva sem mexer." }
+            ]
+        }
+    ];
+
+    const selectedRule = rules.find(rule => title.includes(rule.key));
+
+    if (!selectedRule || !selectedRule[choice]) {
+        return {
+            valor: 0,
+            texto: "✅ Sua escolha não teve consequência extra."
+        };
+    }
+
+    const possibilities = selectedRule[choice];
+    const random = Math.random();
+
+    let accumulated = 0;
+
+    for (const consequence of possibilities) {
+        accumulated += consequence.chance;
+
+        if (random <= accumulated) {
+            return consequence;
+        }
+    }
+
+    return possibilities[possibilities.length - 1];
+}
+
+function processRound() {
+    const round = rounds[currentRound];
+
+    Object.keys(players).forEach(id => {
+        const p = players[id];
+        const choice = p.currentVote || 'C';
+
+        const impactoBase = round.impacts[choice];
+        const feedbackText = round.feedbacks[choice];
+
+        const consequence = getRelatedConsequence(round, choice);
+
+        const resultadoDaSemana =
+            incomePerRound + impactoBase + consequence.valor;
+
+        p.balance += resultadoDaSemana;
+
+        if (p.balance < -5000) {
+            p.balance = -5000;
+        }
+
+        const textoImpactoBase =
+            impactoBase >= 0
+                ? `+R$${impactoBase.toFixed(2)}`
+                : `-R$${Math.abs(impactoBase).toFixed(2)}`;
+
+        const textoConsequencia =
+            consequence.valor >= 0
+                ? `+R$${consequence.valor.toFixed(2)}`
+                : `-R$${Math.abs(consequence.valor).toFixed(2)}`;
+
+        const textoResultado =
+            resultadoDaSemana >= 0
+                ? `+R$${resultadoDaSemana.toFixed(2)}`
+                : `-R$${Math.abs(resultadoDaSemana).toFixed(2)}`;
+
+        const feedbackCompleto =
+            feedbackText +
+            "\n\n" +
+            consequence.texto +
+            "\n\n" +
+            "Resumo da semana:" +
+            "\n" +
+            `Dinheiro livre da semana: +R$${incomePerRound.toFixed(2)}` +
+            "\n" +
+            `Impacto da sua escolha: ${textoImpactoBase}` +
+            "\n" +
+            `Consequência da escolha: ${textoConsequencia}` +
+            "\n\n" +
+            `Guardado nesta semana: ${textoResultado}` +
+            "\n" +
+            `Saldo atual: R$${p.balance.toFixed(2)}`;
+
+        socket.emit('enviar_feedback_individual', {
+            playerId: id,
+            feedback: feedbackCompleto,
+            impacto: resultadoDaSemana
+        });
+    });
+
+    updateLeaderboard(false);
+    showScreen('leaderboard-screen');
+}
+
+       function updateLeaderboard(finalOnly = false) {
+    let sortedPlayers = Object.values(players)
+        .sort((a, b) => b.balance - a.balance);
+
+    if (finalOnly) {
+        sortedPlayers = sortedPlayers.filter(p => p.balance >= carGoal);
+    }
+
+    const tbody = document.getElementById('leaderboard-body');
+    tbody.innerHTML = '';
+
+    if (finalOnly && sortedPlayers.length === 0) {
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="4" style="text-align:center; font-weight:bold; color:#dc2626;">
+                    Ninguém conseguiu juntar o valor necessário para o carro.
+                </td>
+            </tr>
+        `;
+        return;
+    }
+
+    sortedPlayers.forEach((p, index) => {
+        const color = p.balance < 0 ? '#dc2626' : '#16a34a';
+
+        let status = '';
+
+        if (p.balance >= carGoal) {
+            status = '🚗 Conseguiu o carro';
+        } else if (p.balance < 0) {
+            status = '💳 Endividado';
+        } else {
+            status = '📈 Economizando';
+        }
+
+        tbody.innerHTML += `
+            <tr>
+                <td>${index + 1}º</td>
+                <td>${p.name}</td>
+                <td style="color: ${color}; font-weight: bold;">
+                    R$ ${p.balance.toFixed(2)}
+                </td>
+                <td>${status}</td>
+            </tr>
+        `;
+    });
+}
+
+        function nextRound() {
+            currentRound++;
+            loadRound();
+        }
+
+        function endGame() {
+    document.getElementById('leaderboard-title').innerText =
+        "🚗 RESULTADO FINAL: QUEM CONSEGUIU O CARRO?";
+
+    document.getElementById('next-round-btn').classList.add('hidden');
+
+    const qualifiedPlayers = Object.values(players)
+        .filter(p => p.balance >= carGoal)
+        .sort((a, b) => b.balance - a.balance);
+
+    const podiumArea = document.getElementById('podium-area');
+    const podiumVisual = document.getElementById('podium-visual');
+
+    if (qualifiedPlayers.length > 0) {
+        podiumArea.classList.remove('hidden');
+
+        podiumVisual.innerHTML = `
+            <div class="podium-place second">
+                <div class="podium-name">${qualifiedPlayers[1] ? qualifiedPlayers[1].name : '-'}</div>
+                2º
+            </div>
+            <div class="podium-place first">
+                <div class="podium-name">${qualifiedPlayers[0] ? qualifiedPlayers[0].name : '-'}</div>
+                1º
+            </div>
+            <div class="podium-place third">
+                <div class="podium-name">${qualifiedPlayers[2] ? qualifiedPlayers[2].name : '-'}</div>
+                3º
+            </div>
+        `;
+    } else {
+        podiumArea.classList.add('hidden');
+        podiumVisual.innerHTML = '';
+    }
+
+    updateLeaderboard(true);
+    showScreen('leaderboard-screen');
+}
+    </script>
+</body>
+</html>
