@@ -35,17 +35,20 @@ function getLocalIP() {
 
 const LOCAL_IP = getLocalIP();
 
-const BASE_URL =
-    process.env.BASE_URL || `http://${LOCAL_IP}:${PORT}`;
+function getBaseUrl(socket) {
+    const host = socket.handshake.headers.host;
 
-// Serve a pasta public
-app.use(express.static('public'));
+    const forwardedProto =
+        socket.handshake.headers['x-forwarded-proto'];
 
-// Gera PIN da sala
-function generateRoomId() {
-    return Math.floor(1000 + Math.random() * 9000).toString();
+    const protocol = forwardedProto
+        ? forwardedProto.split(',')[0]
+        : host.includes('onrender.com')
+            ? 'https'
+            : 'http';
+
+    return `${protocol}://${host}`;
 }
-
 io.on('connection', (socket) => {
     console.log(`Cliente conectado: ${socket.id}`);
 
