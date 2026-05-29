@@ -1,8 +1,8 @@
 const express = require('express');
 const http = require('http');
+const path = require('path');
 const { Server } = require('socket.io');
 const QRCode = require('qrcode');
-const os = require('os');
 
 const app = express();
 const server = http.createServer(app);
@@ -13,42 +13,37 @@ const io = new Server(server, {
     }
 });
 
-// Render usa process.env.PORT.
+// O Render define a porta automaticamente.
 // No computador, usa 8080.
 const PORT = process.env.PORT || 8080;
 
-// Pega o IP local automaticamente para usar no computador.
-// No Render, usa a variável BASE_URL.
-function getLocalIP() {
-    const interfaces = os.networkInterfaces();
+// Serve os arquivos da pasta public
+app.use(express.static(path.join(__dirname, 'public')));
 
-    for (const interfaceName in interfaces) {
-        for (const iface of interfaces[interfaceName]) {
-            if (iface.family === 'IPv4' && !iface.internal) {
-                return iface.address;
-            }
-        }
-    }
-
-    return 'localhost';
+// Gera PIN da sala
+function generateRoomId() {
+    return Math.floor(1000 + Math.random() * 9000).toString();
 }
 
-const LOCAL_IP = getLocalIP();
-
+// Pega automaticamente o link real usado no navegador.
+// No Render, isso vira https://jogo-dm-financeira.onrender.com
 function getBaseUrl(socket) {
     const host = socket.handshake.headers.host;
 
     const forwardedProto =
         socket.handshake.headers['x-forwarded-proto'];
 
-    const protocol = forwardedProto
-        ? forwardedProto.split(',')[0]
-        : host.includes('onrender.com')
-            ? 'https'
-            : 'http';
+    let protocol = 'http';
+
+    if (forwardedProto) {
+        protocol = forwardedProto.split(',')[0];
+    } else if (host && host.includes('onrender.com')) {
+        protocol = 'https';
+    }
 
     return `${protocol}://${host}`;
 }
+
 io.on('connection', (socket) => {
     console.log(`Cliente conectado: ${socket.id}`);
 
@@ -59,18 +54,24 @@ io.on('connection', (socket) => {
 
             socket.join(roomId);
 
-            const joinUrl =
-                `${BASE_URL}/player.html?sala=${roomId}`;
+            const baseUrl = getBaseUrl(socket);
 
-            const qrDataUrl =
-                await QRCode.toDataURL(joinUrl, {
-                    width: 350,
-                    margin: 2,
-                    color: {
-                        dark: '#000000',
-                        light: '#FFFFFF'
-                    }
-                });
+            // QR CODE FIXO:
+            // ele abre a página do jogador, e a pessoa digita o PIN que aparece no telão.
+            const joinUrl = `${baseUrl}/player.html`;
+
+            // Se tu quiser que o QR já preencha a sala automaticamente,
+            // troca a linha de cima por esta:
+            // const joinUrl = `${baseUrl}/player.html?sala=${roomId}`;
+
+            const qrDataUrl = await QRCode.toDataURL(joinUrl, {
+                width: 350,
+                margin: 2,
+                color: {
+                    dark: '#000000',
+                    light: '#FFFFFF'
+                }
+            });
 
             socket.emit('sala_criada', {
                 roomId,
@@ -95,19 +96,32 @@ io.on('connection', (socket) => {
 
     // Jogador entra
     socket.on('entrar_sala', (roomId, playerName) => {
-        socket.join(roomId);
+        const sala = String(roomId || '').trim();
+        const nome = String(playerName || '').trim();
 
-        console.log(`${playerName} entrou na sala ${roomId}`);
+        if (!sala || !nome) {
+            return;
+        }
 
-        io.to(roomId).emit('novo_jogador', {
+        socket.join(sala);
+
+        console.log(`${nome} entrou na sala ${sala}`);
+
+        io.to(sala).emit('novo_jogador', {
             id: socket.id,
-            name: playerName
+            name: nome
         });
     });
 
     // Jogador vota
     socket.on('enviar_voto', (roomId, vote) => {
-        io.to(roomId).emit('voto_recebido', {
+        const sala = String(roomId || '').trim();
+
+        if (!sala || !vote) {
+            return;
+        }
+
+        io.to(sala).emit('voto_recebido', {
             id: socket.id,
             vote
         });
@@ -115,6 +129,10 @@ io.on('connection', (socket) => {
 
     // Feedback individual
     socket.on('enviar_feedback_individual', (data) => {
+        if (!data || !data.playerId) {
+            return;
+        }
+
         io.to(data.playerId).emit('feedback_recebido', {
             feedback: data.feedback,
             impacto: data.impacto
@@ -123,7 +141,13 @@ io.on('connection', (socket) => {
 
     // Nova rodada
     socket.on('nova_rodada', (roomId) => {
-        io.to(roomId).emit('nova_rodada_iniciada');
+        const sala = String(roomId || '').trim();
+
+        if (!sala) {
+            return;
+        }
+
+        io.to(sala).emit('nova_rodada_iniciada');
     });
 
     socket.on('disconnect', () => {
@@ -134,7 +158,6 @@ io.on('connection', (socket) => {
 server.listen(PORT, '0.0.0.0', () => {
     console.log('\n========================================');
     console.log('SERVIDOR ONLINE');
-    console.log(`Link do Host: ${BASE_URL}`);
     console.log(`Porta: ${PORT}`);
     console.log('========================================\n');
 });
