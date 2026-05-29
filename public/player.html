@@ -5,16 +5,234 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Controle de Jogo</title>
     <style>
-        :root { --bg-color: #f2f2f2; --primary: #46178f; --btn-a: #e21b3c; --btn-b: #1368ce; --btn-c: #d89e00; }
-        body { font-family: sans-serif; background-color: var(--bg-color); margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; height: 100vh;}
-        .container { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); width: 100%; max-width: 400px; text-align: center; }
-        input { padding: 15px; font-size: 18px; width: 90%; margin-bottom: 15px; border: 2px solid #ccc; border-radius: 5px; text-align: center;}
-        button.btn-join { padding: 15px; font-size: 18px; width: 100%; border: none; border-radius: 5px; background: var(--primary); color: white; font-weight: bold; }
-        
-        .vote-btn { width: 100%; height: 120px; margin-bottom: 15px; border: none; border-radius: 10px; color: white; font-size: 40px; font-weight: bold; box-shadow: 0 6px 0px rgba(0,0,0,0.2); }
-        .vote-btn:active { transform: translateY(6px); box-shadow: none; }
-        .bg-a { background-color: var(--btn-a); } .bg-b { background-color: var(--btn-b); } .bg-c { background-color: var(--btn-c); }
-        .hidden { display: none; }
+        :root {
+            --bg-color: #fff0f7;
+            --primary: #ff75b5;
+            --primary-dark: #d94690;
+            --primary-soft: #ffe1ef;
+            --btn-a: #ff8fbe;
+            --btn-b: #c6a4ff;
+            --btn-c: #ffd36e;
+            --text: #51233f;
+            --muted: #8a5a75;
+            --card: rgba(255, 250, 253, 0.92);
+            --border: #ffcce3;
+            --shadow: rgba(219, 39, 119, 0.18);
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+            background:
+                radial-gradient(circle at top left, rgba(255, 184, 216, 0.85), transparent 34%),
+                radial-gradient(circle at bottom right, rgba(211, 184, 255, 0.75), transparent 32%),
+                linear-gradient(135deg, #fff7fb 0%, #ffe3f1 48%, #f6e9ff 100%);
+            margin: 0;
+            padding: 22px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            min-height: 100dvh;
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: "♡ ✧ ♡ ✦ ♡";
+            position: fixed;
+            top: 18px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            color: rgba(255, 117, 181, 0.32);
+            font-size: 30px;
+            letter-spacing: 14px;
+            pointer-events: none;
+        }
+
+        .container {
+            background: var(--card);
+            backdrop-filter: blur(10px);
+            padding: 30px 24px;
+            border-radius: 28px;
+            box-shadow:
+                0 18px 45px var(--shadow),
+                inset 0 1px 0 rgba(255,255,255,0.95);
+            border: 2px solid rgba(255, 204, 227, 0.95);
+            width: 100%;
+            max-width: 420px;
+            text-align: center;
+            position: relative;
+        }
+
+        .container::after {
+            content: "";
+            position: absolute;
+            inset: 10px;
+            border: 1px solid rgba(255, 204, 227, 0.65);
+            border-radius: 22px;
+            pointer-events: none;
+        }
+
+        h2 {
+            margin: 0 0 18px 0;
+            color: var(--primary-dark);
+            font-size: 28px;
+            letter-spacing: 0.2px;
+            text-shadow: 0 2px 0 rgba(255,255,255,0.85);
+        }
+
+        #login-screen h2::before {
+            content: "💗 ";
+        }
+
+        #controller-screen h2::before {
+            content: "🎀 ";
+        }
+
+        p {
+            color: var(--muted);
+        }
+
+        input {
+            padding: 16px 18px;
+            font-size: 18px;
+            width: 100%;
+            margin-bottom: 14px;
+            border: 2px solid var(--border);
+            border-radius: 999px;
+            text-align: center;
+            color: var(--text);
+            background: #fffafd;
+            outline: none;
+            box-shadow: inset 0 2px 8px rgba(255, 117, 181, 0.08);
+            transition: 0.2s ease;
+        }
+
+        input::placeholder {
+            color: #c783a7;
+        }
+
+        input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(255, 117, 181, 0.18);
+            transform: translateY(-1px);
+        }
+
+        button {
+            font-family: inherit;
+            cursor: pointer;
+        }
+
+        button.btn-join {
+            padding: 16px;
+            font-size: 18px;
+            width: 100%;
+            border: none;
+            border-radius: 999px;
+            background: linear-gradient(135deg, #ff8fc5 0%, #ff5da8 48%, #d94690 100%);
+            color: white;
+            font-weight: 900;
+            letter-spacing: 0.3px;
+            box-shadow: 0 10px 0 #c9357b, 0 16px 28px rgba(217, 70, 144, 0.25);
+            transition: 0.15s ease;
+        }
+
+        button.btn-join:hover {
+            filter: brightness(1.03);
+            transform: translateY(-1px);
+        }
+
+        button.btn-join:active {
+            transform: translateY(7px);
+            box-shadow: 0 3px 0 #c9357b, 0 8px 18px rgba(217, 70, 144, 0.22);
+        }
+
+        .vote-btn {
+            width: 100%;
+            height: 118px;
+            margin-bottom: 16px;
+            border: 0;
+            border-radius: 26px;
+            color: white;
+            font-size: 42px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 0 rgba(99, 42, 80, 0.18);
+            box-shadow: 0 9px 0 rgba(116, 48, 91, 0.24), 0 16px 28px rgba(219, 39, 119, 0.18);
+            transition: 0.12s ease;
+        }
+
+        .vote-btn:hover {
+            transform: translateY(-2px) scale(1.01);
+            filter: saturate(1.08) brightness(1.02);
+        }
+
+        .vote-btn:active {
+            transform: translateY(7px) scale(0.99);
+            box-shadow: 0 2px 0 rgba(116, 48, 91, 0.24), 0 8px 16px rgba(219, 39, 119, 0.14);
+        }
+
+        .bg-a {
+            background: linear-gradient(135deg, #ffb3d2, var(--btn-a));
+        }
+
+        .bg-b {
+            background: linear-gradient(135deg, #dcc8ff, var(--btn-b));
+        }
+
+        .bg-c {
+            background: linear-gradient(135deg, #ffe7a8, var(--btn-c));
+            color: #7a3f00;
+            text-shadow: 0 1px 0 rgba(255,255,255,0.5);
+        }
+
+        #status-msg {
+            background: var(--primary-soft);
+            color: var(--text);
+            border: 1px solid var(--border);
+            padding: 12px 14px;
+            border-radius: 18px;
+            font-size: 17px;
+            font-weight: 700;
+            margin: 0 0 18px;
+        }
+
+        #feedback {
+            width: 100%;
+            max-width: 420px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 430px) {
+            body {
+                padding: 16px;
+            }
+
+            .container {
+                padding: 26px 18px;
+                border-radius: 24px;
+            }
+
+            h2 {
+                font-size: 25px;
+            }
+
+            .vote-btn {
+                height: 108px;
+                font-size: 38px;
+                border-radius: 22px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -103,7 +321,7 @@
         status.innerText =
             `Você escolheu ${choice}! Aguarde o resultado...`;
 
-        status.style.color = 'green';
+        status.style.color = '#d94690';
         status.style.fontWeight = 'bold';
     }
 
@@ -120,7 +338,7 @@
             status.innerText =
                 'Faça sua escolha!';
 
-            status.style.color = 'black';
+            status.style.color = '#51233f';
 
             // LIMPA FEEDBACK ANTIGO
             document
@@ -141,36 +359,49 @@
 
             const cor =
                 data.impacto >= 0
-                ? 'green'
-                : 'red';
+                ? '#16a34a'
+                : '#e11d48';
 
             document
                 .getElementById('feedback')
                 .innerHTML = `
 
                 <div style="
-                    background:white;
-                    margin-top:20px;
-                    padding:20px;
-                    border-radius:15px;
-                    box-shadow:0 4px 10px rgba(0,0,0,0.1);
+                    background:rgba(255,250,253,0.96);
+                    margin-top:22px;
+                    padding:22px 20px;
+                    border-radius:28px;
+                    border:2px solid #ffcce3;
+                    box-shadow:0 18px 45px rgba(219,39,119,0.18);
+                    color:#51233f;
                 ">
 
-                    <h2>
-                        📊 Resultado da Rodada
+                    <h2 style="
+                        color:#d94690;
+                        margin-top:0;
+                    ">
+                        💕 Resultado da Rodada
                     </h2>
 
                     <h1 style="
                         color:${cor};
-                        font-size:42px;
+                        font-size:44px;
+                        background:#fff0f7;
+                        border-radius:20px;
+                        padding:10px;
                     ">
                         ${valor}
                     </h1>
 
                     <p style="
-                        font-size:22px;
-                        line-height:1.5;
+                        font-size:20px;
+                        line-height:1.55;
                         white-space:pre-line;
+                        color:#6b3156;
+                        background:#fff7fb;
+                        border:1px solid #ffd7e9;
+                        border-radius:20px;
+                        padding:16px;
                     ">
                         ${data.feedback}
                     </p>
