@@ -450,7 +450,7 @@
 
         <p style="font-size: 20px; color: #333; line-height: 1.4;">
             Você é uma pessoa com salário fixo, despesas pesadas e um objetivo claro:
-            juntar dinheiro para dar entrada em um carro popular de <strong>R$ 50.000</strong>.
+            juntar dinheiro para dar entrada em um apê, com uma meta inicial de <strong>R$ 10.000</strong>.
         </p>
 
         <div class="stats-grid">
@@ -470,7 +470,7 @@
         </p>
 
         <div class="goal-box">
-            🎯 Objetivo: juntar <strong>R$ 10.000</strong> em 6 meses para dar entrada no carro.
+            🎯 Objetivo: juntar <strong>R$ 10.000</strong> em 4 meses para dar entrada no apê.
         </div>
 
         <hr style="border: 1px solid #ddd; margin: 22px 0;">
@@ -491,7 +491,7 @@
         <div class="month-week">
             <div id="week-display">SEMANA 1</div>
             <div id="month-display">MÊS 1</div>
-            <div class="bottom-right" id="goal-progress">Meta: R$ 20.000</div>
+            <div class="bottom-right" id="goal-progress">Meta: R$ 10.000</div>
         </div>
 
         <h2 id="round-title">Rodada X</h2>
@@ -542,15 +542,30 @@
         const monthlySalary = 8000;
         const fixedExpenses = 5000;
         const incomePerRound = 750; // salário livre por semana
-        const carGoal = 10000;
-        const totalMonths = 6;
+        const carGoal = 10000; // meta da entrada do apê
+        const totalMonths = 4;
         const weeksPerMonth = 4;
         const totalRounds = totalMonths * weeksPerMonth;
 
         const rounds = [
             {
-                title: "Mês 1 - Semana 1: Celular quebrou",
-                desc: "Seu celular de trabalho parou de funcionar do nada.",
+                title: "Mês 1 - Semana 1: Planejamento da entrada",
+                desc: "Você decidiu que a prioridade agora é juntar R$ 10.000 para dar entrada em um apê.",
+                opts: {
+                    A: "Separar todo o dinheiro livre (R$0 extra)",
+                    B: "Guardar parte e gastar um pouco (-R$250)",
+                    C: "Gastar quase tudo no mês (-R$600)"
+                },
+                impacts: { A: 0, B: -250, C: -600 },
+                feedbacks: {
+                    A: "Você começou com disciplina e protegeu a meta.",
+                    B: "Você avançou, mas abriu mão de uma parte da economia.",
+                    C: "Você aproveitou o mês, mas a entrada do apê ficou mais distante."
+                }
+            },
+            {
+                title: "Mês 1 - Semana 2: Celular quebrou",
+                desc: "Seu celular de trabalho parou de funcionar e você precisa resolver.",
                 opts: {
                     A: "Comprar novo parcelado (-R$700)",
                     B: "Consertar o atual (-R$300)",
@@ -558,358 +573,222 @@
                 },
                 impacts: { A: -700, B: -300, C: -150 },
                 feedbacks: {
-                    A: "Você resolveu o problema, mas a parcela apertou o orçamento.",
-                    B: "Boa escolha. Você economizou e resolveu de forma equilibrada.",
-                    C: "O barato saiu caro. O aparelho usado deu problema logo depois."
+                    A: "Você resolveu o problema, mas assumiu uma despesa pesada.",
+                    B: "Você resolveu com menos impacto no orçamento.",
+                    C: "Você gastou menos agora, mas aceitou um risco maior."
                 }
             },
             {
-                title: "Mês 1 - Semana 2: Aniversário do amigo",
-                desc: "Seu melhor amigo chamou para uma comemoração.",
+                title: "Mês 1 - Semana 3: Parente pediu o cartão emprestado",
+                desc: "Um parente pediu seu cartão para comprar algo urgente e prometeu pagar depois.",
                 opts: {
-                    A: "Dar presentão e ir ao restaurante (-R$600)",
-                    B: "Levar um presente simples (-R$200)",
-                    C: "Inventar desculpa e não ir (R$0)"
+                    A: "Emprestar sem combinar limite (R$0 agora / risco)",
+                    B: "Ajudar com Pix limitado (-R$300)",
+                    C: "Não emprestar o cartão (R$0)"
                 },
-                impacts: { A: -600, B: -200, C: 0 },
+                impacts: { A: 0, B: -300, C: 0 },
                 feedbacks: {
-                    A: "A festa foi boa, mas o cartão sentiu.",
-                    B: "Você marcou presença sem exagerar nos gastos.",
-                    C: "Você economizou, mas ficou com fama de sumido."
+                    A: "Você confiou, mas perdeu o controle sobre o gasto.",
+                    B: "Você ajudou sem entregar seu cartão.",
+                    C: "Você evitou misturar família e limite do cartão."
                 }
             },
             {
-                title: "Mês 1 - Semana 3: Reserva de emergência",
-                desc: "Você decidiu separar uma parte do dinheiro para o futuro.",
+                title: "Mês 1 - Semana 4: Reserva para mudança",
+                desc: "Além da entrada, você percebeu que mudança, documentos e pequenas taxas podem pesar.",
                 opts: {
-                    A: "Guardar R$500 no banco (-R$500)",
-                    B: "Guardar R$200 no banco (-R$200)",
-                    C: "Gastar em lazer (R$0)"
+                    A: "Vender coisas paradas e guardar (+R$500)",
+                    B: "Guardar o dinheiro normal (R$0 extra)",
+                    C: "Comprar decoração antes da hora (-R$450)"
                 },
-                impacts: { A: -500, B: -200, C: 0 },
+                impacts: { A: 500, B: 0, C: -450 },
                 feedbacks: {
-                    A: "Ótimo! Você começou a montar sua reserva.",
-                    B: "É um começo. Melhor do que nada.",
-                    C: "Você preferiu viver o momento."
+                    A: "Você transformou coisas paradas em avanço real para a meta.",
+                    B: "Você manteve o plano sem grandes mudanças.",
+                    C: "Você se animou com o apê, mas gastou antes de ter a entrada."
                 }
             },
             {
-                title: "Mês 1 - Semana 4: Vazamento no banheiro",
-                desc: "A conta de água veio muito acima do normal.",
+                title: "Mês 2 - Semana 1: Empréstimo no banco",
+                desc: "O banco ofereceu crédito pré-aprovado para acelerar a entrada do apê.",
                 opts: {
-                    A: "Chamar encanador urgente (-R$450)",
-                    B: "Tentar arrumar sozinho (-R$100)",
-                    C: "Ignorar por enquanto (R$0)"
+                    A: "Pegar empréstimo alto (+R$3.000 / risco)",
+                    B: "Pegar valor menor e planejado (+R$1.000 / risco)",
+                    C: "Não pegar empréstimo (R$0)"
                 },
-                impacts: { A: -450, B: -300, C: -900 },
+                impacts: { A: 3000, B: 1000, C: 0 },
                 feedbacks: {
-                    A: "Problema resolvido rápido e com menos dor de cabeça.",
-                    B: "Você tentou economizar, mas o reparo saiu pior.",
-                    C: "Ignorar só fez o estrago crescer."
+                    A: "O dinheiro entrou rápido, mas a dívida pode virar um peso.",
+                    B: "Você usou crédito com mais cautela.",
+                    C: "Você preferiu não depender de dívida."
                 }
             },
             {
-                title: "Mês 2 - Semana 1: Promoção da TV",
-                desc: "A TV dos sonhos apareceu com desconto.",
+                title: "Mês 2 - Semana 2: Curso para renda extra",
+                desc: "Apareceu um curso curto que pode abrir uma renda extra ainda neste período.",
                 opts: {
-                    A: "Comprar à vista (-R$900)",
-                    B: "Parcelar no cartão (-R$300)",
-                    C: "Fechar o site (R$0)"
-                },
-                impacts: { A: -900, B: -300, C: 0 },
-                feedbacks: {
-                    A: "Você comprou, mas quase saiu do orçamento.",
-                    B: "Parcelar pareceu leve agora, mas pesa depois.",
-                    C: "Você resistiu à tentação."
-                }
-            },
-            {
-                title: "Mês 2 - Semana 2: Curso profissionalizante",
-                desc: "Surgiu a chance de investir na carreira.",
-                opts: {
-                    A: "Fazer o curso completo (-R$400)",
-                    B: "Comprar só os livros (-R$100)",
+                    A: "Fazer o curso pago (-R$500 / chance de retorno)",
+                    B: "Estudar por materiais gratuitos (R$0)",
                     C: "Não fazer nada (R$0)"
                 },
-                impacts: { A: 200, B: -100, C: 0 },
+                impacts: { A: -500, B: 0, C: 0 },
                 feedbacks: {
-                    A: "O curso te ajudou a ganhar uma pequena promoção.",
-                    B: "Você aprendeu um pouco, mas não o suficiente para mudar tudo.",
-                    C: "Nada mudou na sua renda."
+                    A: "Você investiu em qualificação, mas o retorno não é garantido.",
+                    B: "Você tentou evoluir sem comprometer o caixa.",
+                    C: "Você manteve sua rotina, mas sem abrir nova fonte de renda."
                 }
             },
             {
-                title: "Mês 2 - Semana 3: Cansaço e delivery",
-                desc: "A semana foi puxada e ninguém quis cozinhar.",
+                title: "Mês 2 - Semana 3: Fatura alta do cartão",
+                desc: "A fatura veio maior do que o esperado e pode atrapalhar sua entrada.",
                 opts: {
-                    A: "Delivery todo dia (-R$800)",
-                    B: "Cozinhar em casa (-R$250)",
-                    C: "Comprar marmitas prontas (-R$500)"
+                    A: "Pagar o total (-R$1.000)",
+                    B: "Parcelar a fatura (-R$450 / risco)",
+                    C: "Pagar o mínimo (-R$200 / risco alto)"
                 },
-                impacts: { A: -800, B: -250, C: -500 },
+                impacts: { A: -1000, B: -450, C: -200 },
                 feedbacks: {
-                    A: "Praticidade cara. O motoboy virou visita constante.",
-                    B: "Muito melhor para o bolso.",
-                    C: "Equilíbrio entre tempo e dinheiro."
+                    A: "Doeu agora, mas você evitou juros maiores.",
+                    B: "Você ganhou fôlego, mas espalhou a dívida.",
+                    C: "Você aliviou a semana, mas entrou numa zona perigosa."
                 }
             },
             {
-                title: "Mês 2 - Semana 4: Impostos e boletos",
-                desc: "Uma pilha de contas chegou de uma vez.",
+                title: "Mês 2 - Semana 4: Apostas online",
+                desc: "Você viu propaganda de bets prometendo dinheiro rápido para completar a entrada.",
                 opts: {
-                    A: "Pagar à vista com desconto (-R$700)",
-                    B: "Parcelar (-R$250)",
-                    C: "Atrasar e pagar com juros (-R$900)"
+                    A: "Apostar alto tentando dobrar (-R$700 / risco extremo)",
+                    B: "Apostar pouco só para testar (-R$200 / risco)",
+                    C: "Não apostar e manter o plano (R$0)"
                 },
-                impacts: { A: -700, B: -250, C: -900 },
+                impacts: { A: -700, B: -200, C: 0 },
                 feedbacks: {
-                    A: "Doeu agora, mas você evitou juros.",
-                    B: "Parcelar deixou o mês mais leve.",
-                    C: "Atrasar saiu muito caro."
+                    A: "Você tentou acelerar pela sorte, não pelo planejamento.",
+                    B: "Você chamou de teste, mas ainda colocou dinheiro em risco.",
+                    C: "Você não confundiu promessa rápida com estratégia financeira."
                 }
             },
             {
-                title: "Mês 3 - Semana 1: Dinheiro inesperado",
-                desc: "Você recebeu um estorno do cartão.",
+                title: "Mês 3 - Semana 1: Bônus no trabalho",
+                desc: "Seu esforço rendeu um bônus inesperado.",
                 opts: {
-                    A: "Gastar no shopping (-R$200)",
-                    B: "Investir (+R$200)",
-                    C: "Guardar na conta (+R$200)"
+                    A: "Guardar tudo para a entrada (+R$1.200)",
+                    B: "Guardar metade e aproveitar metade (+R$600)",
+                    C: "Gastar o bônus inteiro (R$0)"
                 },
-                impacts: { A: -200, B: 250, C: 200 },
+                impacts: { A: 1200, B: 600, C: 0 },
                 feedbacks: {
-                    A: "O dinheiro entrou e saiu rapidinho.",
-                    B: "Boa! Seu dinheiro rendeu um pouco mais.",
-                    C: "Você ficou com o valor parado e seguro."
+                    A: "Você deu um salto importante na meta.",
+                    B: "Você equilibrou prazer e objetivo.",
+                    C: "O bônus passou pela conta sem ajudar a entrada."
                 }
             },
             {
-                title: "Mês 3 - Semana 2: Fatura do cartão",
-                desc: "A fatura veio maior do que o esperado.",
+                title: "Mês 3 - Semana 2: Visita ao apê dos sonhos",
+                desc: "Você encontrou um apê possível, mas precisa ter cuidado com taxas e promessas.",
                 opts: {
-                    A: "Pagar o total (-R$1000)",
-                    B: "Pagar o mínimo (-R$300)",
-                    C: "Parcelar a fatura (-R$700)"
+                    A: "Pagar taxa de reserva confiável (-R$400)",
+                    B: "Pesquisar mais antes de pagar (R$0)",
+                    C: "Fechar no impulso com taxa suspeita (-R$1.200 / risco)"
                 },
-                impacts: { A: -1000, B: -300, C: -700 },
+                impacts: { A: -400, B: 0, C: -1200 },
                 feedbacks: {
-                    A: "Você limpou a fatura e evitou juros.",
-                    B: "Erro perigoso: os juros rotativos explodiram depois.",
-                    C: "Você deixou a dívida espalhada nos próximos meses."
+                    A: "Você avançou com cuidado e comprovante.",
+                    B: "Você ganhou informação antes de comprometer dinheiro.",
+                    C: "A pressa para garantir o apê abriu espaço para prejuízo."
                 }
             },
             {
-                title: "Mês 3 - Semana 3: Saúde",
-                desc: "O médico disse para cuidar melhor do corpo.",
+                title: "Mês 3 - Semana 3: Renda extra no fim de semana",
+                desc: "Surgiu um trabalho temporário para aumentar sua entrada.",
                 opts: {
-                    A: "Academia chique (-R$600)",
-                    B: "Academia de bairro (-R$100)",
-                    C: "Caminhar no parque (R$0)"
+                    A: "Pegar o bico pesado (+R$900 / risco de desgaste)",
+                    B: "Fazer meio período (+R$450)",
+                    C: "Descansar e manter rotina (R$0)"
                 },
-                impacts: { A: -600, B: -100, C: 0 },
+                impacts: { A: 900, B: 450, C: 0 },
                 feedbacks: {
-                    A: "Boa intenção, mas o preço foi alto.",
-                    B: "Você encontrou um meio-termo bom.",
-                    C: "Saúde sem custo."
+                    A: "Você acelerou a meta, mas forçou bastante a rotina.",
+                    B: "Você conseguiu renda extra sem se sobrecarregar tanto.",
+                    C: "Você preservou o descanso, mas não aumentou o saldo."
                 }
             },
             {
-                title: "Mês 3 - Semana 4: Viagem de feriado",
-                desc: "A família quer sair da rotina.",
+                title: "Mês 3 - Semana 4: Compra por impulso para o apê",
+                desc: "Você começou a imaginar o apê montado e viu promoções de móveis e decoração.",
                 opts: {
-                    A: "Alugar casa na praia (-R$700)",
-                    B: "Bate-volta (-R$250)",
-                    C: "Ficar na cidade (R$0)"
+                    A: "Comprar móveis parcelados (-R$1.000)",
+                    B: "Comprar só o essencial (-R$300)",
+                    C: "Esperar até fechar a entrada (R$0)"
                 },
-                impacts: { A: -700, B: -250, C: 0 },
+                impacts: { A: -1000, B: -300, C: 0 },
                 feedbacks: {
-                    A: "A viagem foi ótima, mas cara.",
-                    B: "Você conseguiu descansar sem gastar tanto.",
-                    C: "Você economizou e ficou em casa."
+                    A: "Você comprou antes da hora e tirou dinheiro da entrada.",
+                    B: "Você se permitiu um gasto pequeno, mas controlado.",
+                    C: "Você priorizou a entrada antes de decorar."
                 }
             },
             {
-                title: "Mês 4 - Semana 1: Carro fazendo barulho",
-                desc: "O transporte começou a apresentar problemas.",
+                title: "Mês 4 - Semana 1: Investimento arriscado",
+                desc: "Na reta final, apareceu uma promessa de investimento com retorno rápido.",
                 opts: {
-                    A: "Revisão completa preventiva (-R$800)",
-                    B: "Trocar só o óleo (-R$200)",
-                    C: "Ignorar o problema (R$0)"
-                },
-                impacts: { A: -800, B: -200, C: -1500 },
-                feedbacks: {
-                    A: "Carro seguro e revisado.",
-                    B: "Você economizou hoje, mas pode pagar caro depois.",
-                    C: "O problema piorou muito."
-                }
-            },
-            {
-                title: "Mês 4 - Semana 2: Assinaturas",
-                desc: "Você percebeu vários serviços cobrando todo mês.",
-                opts: {
-                    A: "Manter tudo (-R$250)",
-                    B: "Cancelar metade (-R$80)",
-                    C: "Cancelar tudo (R$0)"
-                },
-                impacts: { A: -250, B: -80, C: 0 },
-                feedbacks: {
-                    A: "Conforto custa caro.",
-                    B: "Você limpou boa parte do gasto invisível.",
-                    C: "Você ficou mais econômico."
-                }
-            },
-            {
-                title: "Mês 4 - Semana 3: Oportunidade de renda extra",
-                desc: "Surgiu a chance de fazer um bico no fim de semana.",
-                opts: {
-                    A: "Aceitar o bico (+R$500)",
-                    B: "Aceitar meio período (+R$250)",
-                    C: "Descansar (R$0)"
-                },
-                impacts: { A: 500, B: 250, C: 0 },
-                feedbacks: {
-                    A: "Você ganhou uma boa renda extra.",
-                    B: "Entrou um dinheiro a mais sem muita pressão.",
-                    C: "Você preferiu descansar."
-                }
-            },
-            {
-                title: "Mês 4 - Semana 4: Multa de trânsito",
-                desc: "Uma surpresa desagradável apareceu no aplicativo do banco.",
-                opts: {
-                    A: "Pagar a multa (-R$500)",
-                    B: "Recorrer (-R$100)",
-                    C: "Ignorar (R$0)"
-                },
-                impacts: { A: -500, B: -150, C: -700 },
-                feedbacks: {
-                    A: "Você resolveu logo e seguiu em frente.",
-                    B: "O recurso não deu certo, mas amenizou um pouco.",
-                    C: "Ignorar só aumentou a dor de cabeça."
-                }
-            },
-            {
-                title: "Mês 5 - Semana 1: Geladeira queimou",
-                desc: "A geladeira da casa parou de funcionar.",
-                opts: {
-                    A: "Comprar uma nova (-R$1200)",
-                    B: "Consertar a antiga (-R$500)",
-                    C: "Esperar mais um pouco (R$0)"
-                },
-                impacts: { A: -1200, B: -500, C: -1800 },
-                feedbacks: {
-                    A: "Você resolveu, mas a conta ficou pesada.",
-                    B: "Boa solução intermediária.",
-                    C: "Esperar aumentou o prejuízo."
-                }
-            },
-            {
-                title: "Mês 5 - Semana 2: Pequeno bônus",
-                desc: "Seu chefe reconheceu seu esforço.",
-                opts: {
-                    A: "Guardar tudo (+R$600)",
-                    B: "Gastar metade (+R$300)",
-                    C: "Torrar em comida (+R$0)"
-                },
-                impacts: { A: 600, B: 300, C: 0 },
-                feedbacks: {
-                    A: "Ótimo! Mais dinheiro para a meta.",
-                    B: "Você aproveitou um pouco e ainda guardou.",
-                    C: "O bônus evaporou."
-                }
-            },
-            {
-                title: "Mês 5 - Semana 3: Escola das crianças",
-                desc: "Veio uma despesa inesperada da escola.",
-                opts: {
-                    A: "Pagar tudo (-R$650)",
-                    B: "Negociar o valor (-R$300)",
-                    C: "Adiar (R$0)"
-                },
-                impacts: { A: -650, B: -300, C: -900 },
-                feedbacks: {
-                    A: "Você quitou a conta.",
-                    B: "Negociação ajudou bastante.",
-                    C: "Adiar saiu caro no mês seguinte."
-                }
-            },
-            {
-                title: "Mês 5 - Semana 4: Chuva forte",
-                desc: "A chuva trouxe prejuízos em casa.",
-                opts: {
-                    A: "Chamar manutenção (-R$700)",
-                    B: "Remendar o problema (-R$250)",
-                    C: "Esperar secar (R$0)"
-                },
-                impacts: { A: -700, B: -250, C: -1100 },
-                feedbacks: {
-                    A: "Você resolveu de forma segura.",
-                    B: "Você gastou menos agora.",
-                    C: "O problema piorou com o tempo."
-                }
-            },
-            {
-                title: "Mês 6 - Semana 1: Um investimento arriscado",
-                desc: "Últimos meses e você quer acelerar a meta.",
-                opts: {
-                    A: "Investir alto (+R$900 / risco)",
-                    B: "Investir pouco (+R$250)",
+                    A: "Entrar pesado no investimento (+R$1.200 / risco alto)",
+                    B: "Aplicar pouco em opção segura (+R$200)",
                     C: "Não mexer no dinheiro (R$0)"
                 },
-                impacts: { A: 900, B: 250, C: 0 },
+                impacts: { A: 1200, B: 200, C: 0 },
                 feedbacks: {
-                    A: "Você arriscou e dessa vez deu certo.",
-                    B: "Pequeno avanço com menos risco.",
-                    C: "Você manteve a segurança."
+                    A: "Você buscou acelerar a meta, mas entrou em alta volatilidade.",
+                    B: "Você ganhou pouco, mas preservou segurança.",
+                    C: "Você escolheu estabilidade na reta final."
                 }
             },
             {
-                title: "Mês 6 - Semana 2: Pet doente",
-                desc: "Um gasto emocional e financeiro apareceu.",
+                title: "Mês 4 - Semana 2: Despesa inesperada em casa",
+                desc: "Um problema doméstico apareceu bem quando você estava perto da meta.",
                 opts: {
-                    A: "Veterinário completo (-R$800)",
-                    B: "Remédio e observação (-R$250)",
-                    C: "Esperar melhorar sozinho (R$0)"
+                    A: "Resolver com profissional agora (-R$800)",
+                    B: "Negociar e fazer o básico (-R$350)",
+                    C: "Adiar o problema (R$0 / risco)"
                 },
-                impacts: { A: -800, B: -250, C: -1300 },
+                impacts: { A: -800, B: -350, C: 0 },
                 feedbacks: {
-                    A: "Você cuidou bem do pet, mas foi caro.",
-                    B: "Você reduziu o prejuízo.",
-                    C: "Esperar piorou a situação."
+                    A: "Você gastou, mas reduziu a chance de um prejuízo maior.",
+                    B: "Você conteve o dano sem gastar tanto.",
+                    C: "Você empurrou o problema para frente."
                 }
             },
             {
-                title: "Mês 6 - Semana 3: Último fôlego",
-                desc: "Falta pouco para fechar a meta.",
+                title: "Mês 4 - Semana 3: Último esforço para a entrada",
+                desc: "Falta pouco. Você pode fazer uma última ação planejada para aumentar o saldo.",
                 opts: {
-                    A: "Fazer um bico pesado (+R$700)",
-                    B: "Economizar ao máximo (+R$200)",
-                    C: "Descansar e torcer (R$0)"
+                    A: "Vender itens e fazer renda extra (+R$1.000)",
+                    B: "Economizar ao máximo na semana (+R$300)",
+                    C: "Manter a rotina normal (R$0)"
                 },
-                impacts: { A: 700, B: 200, C: 0 },
+                impacts: { A: 1000, B: 300, C: 0 },
                 feedbacks: {
-                    A: "Você acelerou a reta final.",
-                    B: "Cada centavo ajudou.",
-                    C: "Você não mexeu no saldo."
+                    A: "Você fez um esforço final forte e planejado.",
+                    B: "Você avançou com pequenos cortes.",
+                    C: "Você não assumiu esforço extra nesta semana."
                 }
             },
             {
-                title: "Mês 6 - Semana 4: Hora de fechar a conta",
-                desc: "A última semana chegou. Tudo depende do que sobrou.",
+                title: "Mês 4 - Semana 4: Dinheiro suspeito para completar a entrada",
+                desc: "Na última rodada, apareceu uma oferta informal para completar o valor que falta.",
                 opts: {
-                    A: "Guardar tudo para a meta (+R$500)",
-                    B: "Gastar em conforto (-R$300)",
-                    C: "Manter a reserva (R$0)"
+                    A: "Aceitar dinheiro suspeito (+R$4.000 / risco extremo)",
+                    B: "Pedir ajuda formal à família (+R$1.200 / risco baixo)",
+                    C: "Não arriscar e fechar com o que tem (R$0)"
                 },
-                impacts: { A: 500, B: -300, C: 0 },
+                impacts: { A: 4000, B: 1200, C: 0 },
                 feedbacks: {
-                    A: "Você priorizou o objetivo até o fim.",
-                    B: "O conforto custou caro no último momento.",
-                    C: "Você fechou com cautela."
+                    A: "Você tentou resolver no desespero, mas entrou em uma situação perigosa.",
+                    B: "Você buscou ajuda de forma mais transparente.",
+                    C: "Você preferiu não colocar sua segurança financeira em risco."
                 }
             }
         ];
-
         // Gera a sala automaticamente quando a página abre
         socket.emit('criar_sala');
 
@@ -1029,363 +908,240 @@ function getRelatedConsequence(round, choice) {
 
     const rules = [
         {
+            key: "planejamento",
+            A: [
+                { chance: 0.90, valor: 0, texto: "🎯 O planejamento funcionou. Você manteve o foco na entrada." },
+                { chance: 0.10, valor: -100, texto: "🎯 Um gasto pequeno apareceu, mas não destruiu seu plano. Você perdeu R$100." }
+            ],
+            B: [
+                { chance: 0.65, valor: 0, texto: "🛍️ O gasto ficou dentro do combinado." },
+                { chance: 0.35, valor: -200, texto: "🛍️ O passeio passou do previsto. Você perdeu mais R$200." }
+            ],
+            C: [
+                { chance: 0.35, valor: 0, texto: "💸 Você gastou muito, mas parou antes de piorar." },
+                { chance: 0.65, valor: -350, texto: "💸 O gasto puxou outros gastos menores. Você perdeu mais R$350." }
+            ]
+        },
+        {
             key: "celular",
             A: [
                 { chance: 0.65, valor: 0, texto: "📱 O celular novo funcionou bem. Nenhum gasto extra." },
-                { chance: 0.35, valor: -200, texto: "📱 A parcela veio com taxa de serviço. Você perdeu mais R$200." }
+                { chance: 0.35, valor: -250, texto: "📱 A parcela veio com taxa de serviço. Você perdeu mais R$250." }
             ],
             B: [
-                { chance: 0.70, valor: 0, texto: "🔧 O conserto resolveu o problema. Nenhum gasto extra." },
-                { chance: 0.30, valor: -250, texto: "🔧 A assistência achou outra peça quebrada. Você perdeu mais R$250." }
+                { chance: 0.75, valor: 0, texto: "🔧 O conserto resolveu o problema." },
+                { chance: 0.25, valor: -250, texto: "🔧 A assistência encontrou outra peça ruim. Você perdeu mais R$250." }
             ],
             C: [
-                { chance: 0.45, valor: 0, texto: "📱 O usado funcionou por enquanto. Nenhum gasto extra." },
-                { chance: 0.55, valor: -400, texto: "📱 O usado deu defeito rápido. Você perdeu mais R$400." }
+                { chance: 0.45, valor: 0, texto: "📱 O usado funcionou por enquanto." },
+                { chance: 0.55, valor: -500, texto: "📱 O usado deu defeito rápido. Você perdeu mais R$500." }
             ]
         },
         {
-            key: "aniversário",
+            key: "cartão emprestado",
             A: [
-                { chance: 0.60, valor: 0, texto: "🎉 A comemoração saiu exatamente como planejado." },
-                { chance: 0.40, valor: -250, texto: "🎉 A conta do restaurante ficou maior que o esperado. Você perdeu mais R$250." }
+                { chance: 0.20, valor: 0, texto: "💳 Seu parente pagou certinho desta vez." },
+                { chance: 0.50, valor: -900, texto: "💳 Seu parente atrasou e a fatura caiu para você. Você perdeu R$900." },
+                { chance: 0.30, valor: -1800, texto: "💳 O limite foi usado além do combinado. Você perdeu R$1800." }
             ],
             B: [
-                { chance: 0.75, valor: 0, texto: "🎁 O presente simples foi suficiente. Nenhum gasto extra." },
-                { chance: 0.25, valor: -100, texto: "🎁 Você acabou comprando algo a mais de última hora. Perdeu mais R$100." }
+                { chance: 0.75, valor: 0, texto: "🤝 A ajuda limitada resolveu sem virar bola de neve." },
+                { chance: 0.25, valor: -200, texto: "🤝 Apareceu mais um pedido de ajuda. Você perdeu R$200." }
             ],
             C: [
-                { chance: 0.80, valor: 0, texto: "🏠 Você não foi e não gastou nada." },
-                { chance: 0.20, valor: -80, texto: "📞 Para compensar, você mandou um mimo depois. Perdeu R$80." }
+                { chance: 0.85, valor: 0, texto: "🛡️ Você protegeu seu orçamento." },
+                { chance: 0.15, valor: -100, texto: "🛡️ Você compensou com uma ajuda pequena depois. Perdeu R$100." }
             ]
         },
         {
-            key: "reserva",
+            key: "reserva para mudança",
             A: [
-                { chance: 0.80, valor: 0, texto: "🏦 O dinheiro ficou guardado sem problemas." },
-                { chance: 0.20, valor: -100, texto: "🏦 Você precisou usar uma pequena parte da reserva. Perdeu R$100." }
+                { chance: 0.70, valor: 0, texto: "📦 Você vendeu os itens pelo valor esperado." },
+                { chance: 0.30, valor: 200, texto: "📦 Um item valorizou mais do que você imaginava. Você ganhou mais R$200." }
             ],
             B: [
-                { chance: 0.80, valor: 0, texto: "🏦 Você conseguiu manter o dinheiro guardado." },
-                { chance: 0.20, valor: -80, texto: "🏦 Surgiu um gasto pequeno e você usou parte do valor. Perdeu R$80." }
+                { chance: 0.85, valor: 0, texto: "🏦 Você manteve a reserva estável." },
+                { chance: 0.15, valor: -100, texto: "🏦 Uma pequena taxa apareceu. Você perdeu R$100." }
             ],
             C: [
-                { chance: 0.55, valor: 0, texto: "🍔 O lazer ficou dentro do planejado." },
-                { chance: 0.45, valor: -200, texto: "🍔 O passeio saiu mais caro que parecia. Você perdeu mais R$200." }
+                { chance: 0.45, valor: 0, texto: "🛋️ A compra ficou no valor planejado." },
+                { chance: 0.55, valor: -350, texto: "🛋️ Frete e itens extras aumentaram o gasto. Você perdeu mais R$350." }
             ]
         },
         {
-            key: "vazamento",
+            key: "empréstimo no banco",
             A: [
-                { chance: 0.75, valor: 0, texto: "🚿 O encanador resolveu tudo." },
-                { chance: 0.25, valor: -150, texto: "🚿 Faltou uma peça extra. Você perdeu mais R$150." }
+                { chance: 0.50, valor: 0, texto: "🏦 O empréstimo caiu na conta, mas agora existe uma dívida para administrar." },
+                { chance: 0.50, valor: -5000, texto: "🏦 Juros, tarifas e parcelas comprometeram seu plano. Você perdeu R$5000 do resultado." }
             ],
             B: [
-                { chance: 0.40, valor: 0, texto: "🔧 Seu conserto caseiro segurou o problema." },
-                { chance: 0.60, valor: -400, texto: "🔧 O remendo falhou e o vazamento piorou. Você perdeu mais R$400." }
+                { chance: 0.70, valor: -300, texto: "🏦 O crédito menor foi controlável, mas teve custo. Você perdeu R$300." },
+                { chance: 0.30, valor: -1500, texto: "🏦 Mesmo menor, o empréstimo veio com encargos pesados. Você perdeu R$1500." }
             ],
             C: [
-                { chance: 0.25, valor: 0, texto: "🚿 Por sorte, o vazamento não piorou nesta semana." },
-                { chance: 0.75, valor: -600, texto: "🚿 Ignorar aumentou a conta de água. Você perdeu mais R$600." }
-            ]
-        },
-        {
-            key: "tv",
-            A: [
-                { chance: 0.65, valor: 0, texto: "📺 A compra ficou no valor anunciado." },
-                { chance: 0.35, valor: -200, texto: "📺 Veio taxa de entrega e instalação. Você perdeu mais R$200." }
-            ],
-            B: [
-                { chance: 0.50, valor: 0, texto: "💳 A parcela coube no orçamento desta semana." },
-                { chance: 0.50, valor: -300, texto: "💳 O cartão cobrou juros no parcelamento. Você perdeu mais R$300." }
-            ],
-            C: [
-                { chance: 0.90, valor: 0, texto: "✅ Você não comprou e manteve o dinheiro." },
-                { chance: 0.10, valor: -100, texto: "🛒 Você acabou comprando outro item menor. Perdeu R$100." }
+                { chance: 1, valor: 0, texto: "✅ Você evitou assumir uma dívida nova." }
             ]
         },
         {
             key: "curso",
             A: [
-                { chance: 0.65, valor: 0, texto: "📚 O curso ajudou como esperado." },
-                { chance: 0.35, valor: -200, texto: "📚 Você precisou pagar material extra. Perdeu R$200." }
+                { chance: 0.55, valor: 1200, texto: "📚 O curso rendeu um trabalho extra. Você ganhou R$1200." },
+                { chance: 0.45, valor: -200, texto: "📚 O retorno não veio a tempo e ainda teve material extra. Você perdeu R$200." }
             ],
             B: [
-                { chance: 0.60, valor: 0, texto: "📖 Os livros foram suficientes para estudar." },
-                { chance: 0.40, valor: -150, texto: "📖 Faltou conteúdo e você comprou material complementar. Perdeu R$150." }
+                { chance: 0.50, valor: 400, texto: "💻 O estudo gratuito ajudou em uma renda pequena. Você ganhou R$400." },
+                { chance: 0.50, valor: 0, texto: "💻 Você aprendeu, mas ainda não teve retorno financeiro." }
             ],
             C: [
-                { chance: 0.85, valor: 0, texto: "Você não gastou nada." },
-                { chance: 0.15, valor: -100, texto: "Você perdeu uma pequena oportunidade de renda extra. Impacto de R$100." }
+                { chance: 0.85, valor: 0, texto: "⏳ Nada mudou nesta semana." },
+                { chance: 0.15, valor: -100, texto: "⏳ Você perdeu uma chance pequena de renda. Impacto de R$100." }
             ]
         },
         {
-            key: "delivery",
+            key: "fatura",
             A: [
-                { chance: 0.45, valor: 0, texto: "🍔 O delivery ficou no valor planejado." },
-                { chance: 0.55, valor: -250, texto: "🍔 Taxas e pedidos extras aumentaram o gasto. Você perdeu mais R$250." }
+                { chance: 0.90, valor: 0, texto: "💳 Você zerou a fatura e evitou juros." },
+                { chance: 0.10, valor: -100, texto: "💳 Ainda apareceu uma cobrança pequena. Você perdeu R$100." }
             ],
             B: [
-                { chance: 0.80, valor: 0, texto: "🍲 Cozinhar em casa deu certo." },
-                { chance: 0.20, valor: -100, texto: "🍲 Faltaram ingredientes e você comprou mais coisas. Perdeu R$100." }
+                { chance: 0.45, valor: 0, texto: "💳 O parcelamento segurou o mês." },
+                { chance: 0.55, valor: -700, texto: "💳 Os juros do parcelamento pesaram. Você perdeu R$700." }
             ],
             C: [
-                { chance: 0.65, valor: 0, texto: "🥘 As marmitas ficaram dentro do combinado." },
-                { chance: 0.35, valor: -150, texto: "🥘 Você precisou complementar algumas refeições. Perdeu mais R$150." }
+                { chance: 0.20, valor: 0, texto: "💳 O impacto ainda não apareceu." },
+                { chance: 0.80, valor: -1600, texto: "💳 O pagamento mínimo virou juros altos. Você perdeu R$1600." }
             ]
         },
         {
-            key: "impostos",
+            key: "apostas online",
             A: [
-                { chance: 0.85, valor: 0, texto: "🧾 Você pagou à vista e ficou livre." },
-                { chance: 0.15, valor: -100, texto: "🧾 Apareceu uma taxa pequena atrasada. Perdeu R$100." }
+                { chance: 0.10, valor: 3000, texto: "⚠️ Você ganhou uma vez, mas isso não torna a aposta uma estratégia segura. Entraram R$3000." },
+                { chance: 0.90, valor: -2200, texto: "⚠️ A aposta deu ruim e você tentou recuperar perdendo mais. Você perdeu R$2200." }
             ],
             B: [
-                { chance: 0.70, valor: 0, texto: "🧾 A parcela coube no orçamento." },
-                { chance: 0.30, valor: -200, texto: "🧾 Outra parcela acumulou junto. Você perdeu mais R$200." }
+                { chance: 0.20, valor: 600, texto: "⚠️ Você teve um ganho pequeno, mas continuou sendo risco. Entraram R$600." },
+                { chance: 0.80, valor: -500, texto: "⚠️ O teste virou prejuízo. Você perdeu R$500." }
             ],
             C: [
-                { chance: 0.25, valor: 0, texto: "🧾 Por enquanto, nada aconteceu." },
-                { chance: 0.75, valor: -500, texto: "🧾 Vieram juros e multa. Você perdeu mais R$500." }
+                { chance: 1, valor: 0, texto: "✅ Você não colocou sua entrada nas mãos da sorte." }
             ]
         },
         {
-            key: "estorno",
+            key: "bônus",
             A: [
-                { chance: 0.50, valor: 0, texto: "🛍️ Você gastou só o previsto." },
-                { chance: 0.50, valor: -200, texto: "🛍️ No shopping, comprou mais do que planejava. Perdeu mais R$200." }
+                { chance: 0.90, valor: 0, texto: "💰 O bônus foi direto para a entrada." },
+                { chance: 0.10, valor: -100, texto: "💰 Uma taxa pequena apareceu na conta. Você perdeu R$100." }
             ],
             B: [
-                { chance: 0.75, valor: 0, texto: "📈 O investimento se manteve." },
-                { chance: 0.25, valor: -100, texto: "📉 O investimento oscilou para baixo. Perdeu R$100." }
+                { chance: 0.70, valor: 0, texto: "💰 Você respeitou o combinado e guardou metade." },
+                { chance: 0.30, valor: -250, texto: "💰 Você gastou um pouco além da metade. Perdeu R$250." }
             ],
             C: [
-                { chance: 0.90, valor: 0, texto: "🏦 O dinheiro ficou seguro na conta." },
-                { chance: 0.10, valor: -50, texto: "🏦 Uma tarifa bancária comeu parte do valor. Perdeu R$50." }
+                { chance: 0.45, valor: 0, texto: "🍔 Você gastou só o bônus." },
+                { chance: 0.55, valor: -400, texto: "🍔 O rolê ficou maior que o bônus. Você perdeu R$400." }
             ]
         },
         {
-            key: "cartão",
+            key: "apê dos sonhos",
             A: [
-                { chance: 0.90, valor: 0, texto: "💳 Você pagou tudo e evitou juros." },
-                { chance: 0.10, valor: -100, texto: "💳 Ainda apareceu uma taxa pequena. Perdeu R$100." }
+                { chance: 0.80, valor: 0, texto: "🏠 A taxa tinha comprovante e ficou controlada." },
+                { chance: 0.20, valor: -200, texto: "🏠 Surgiu uma taxa administrativa extra. Você perdeu R$200." }
             ],
             B: [
-                { chance: 0.20, valor: 0, texto: "💳 Por sorte, o impacto não veio nesta semana." },
-                { chance: 0.80, valor: -800, texto: "💳 O mínimo gerou juros altos. Você perdeu mais R$800." }
+                { chance: 0.70, valor: 0, texto: "🔎 Pesquisar evitou uma decisão apressada." },
+                { chance: 0.30, valor: 200, texto: "🔎 Você encontrou uma opção melhor e economizou R$200." }
             ],
             C: [
-                { chance: 0.45, valor: 0, texto: "💳 O parcelamento segurou o problema por enquanto." },
-                { chance: 0.55, valor: -400, texto: "💳 Os juros do parcelamento pesaram. Você perdeu mais R$400." }
-            ]
-        },
-        {
-            key: "saúde",
-            A: [
-                { chance: 0.55, valor: 0, texto: "🏋️ O plano ficou no valor combinado." },
-                { chance: 0.45, valor: -200, texto: "🏋️ Teve taxa de matrícula. Você perdeu mais R$200." }
-            ],
-            B: [
-                { chance: 0.80, valor: 0, texto: "🏃 A academia de bairro foi uma boa escolha." },
-                { chance: 0.20, valor: -80, texto: "🏃 Você comprou itens extras para treinar. Perdeu R$80." }
-            ],
-            C: [
-                { chance: 0.90, valor: 0, texto: "🌳 Caminhar no parque não custou nada." },
-                { chance: 0.10, valor: -50, texto: "🌳 Você gastou com transporte e água no passeio. Perdeu R$50." }
-            ]
-        },
-        {
-            key: "viagem",
-            A: [
-                { chance: 0.45, valor: 0, texto: "🏖️ A viagem saiu no valor planejado." },
-                { chance: 0.55, valor: -400, texto: "🏖️ Combustível, comida e taxas deixaram tudo mais caro. Perdeu mais R$400." }
-            ],
-            B: [
-                { chance: 0.70, valor: 0, texto: "🚗 O bate-volta funcionou." },
-                { chance: 0.30, valor: -150, texto: "🚗 Teve gasto extra com estacionamento e lanche. Perdeu R$150." }
-            ],
-            C: [
-                { chance: 0.85, valor: 0, texto: "🏠 Ficar na cidade manteve seu dinheiro." },
-                { chance: 0.15, valor: -100, texto: "🏠 Mesmo ficando, vocês gastaram com um passeio local. Perdeu R$100." }
-            ]
-        },
-        {
-            key: "carro fazendo barulho",
-            A: [
-                { chance: 0.75, valor: 0, texto: "🔧 A revisão evitou problema maior." },
-                { chance: 0.25, valor: -300, texto: "🔧 A revisão achou outra peça ruim. Você perdeu mais R$300." }
-            ],
-            B: [
-                { chance: 0.45, valor: 0, texto: "🛢️ Trocar o óleo segurou por enquanto." },
-                { chance: 0.55, valor: -700, texto: "🛢️ O problema era maior que óleo. Você perdeu mais R$700." }
-            ],
-            C: [
-                { chance: 0.20, valor: 0, texto: "🚗 Por sorte, o carro aguentou mais uma semana." },
-                { chance: 0.80, valor: -1200, texto: "🚗 Ignorar o barulho gerou conserto caro. Você perdeu mais R$1200." }
-            ]
-        },
-        {
-            key: "assinaturas",
-            A: [
-                { chance: 0.70, valor: 0, texto: "📺 As assinaturas cobraram o valor normal." },
-                { chance: 0.30, valor: -100, texto: "📺 Uma assinatura subiu de preço. Você perdeu mais R$100." }
-            ],
-            B: [
-                { chance: 0.80, valor: 0, texto: "✂️ Cancelar metade reduziu os gastos." },
-                { chance: 0.20, valor: -50, texto: "✂️ Uma cobrança ainda veio antes do cancelamento. Perdeu R$50." }
-            ],
-            C: [
-                { chance: 0.90, valor: 0, texto: "✅ Cancelar tudo funcionou." },
-                { chance: 0.10, valor: -50, texto: "✅ Uma última cobrança ainda caiu. Perdeu R$50." }
+                { chance: 0.20, valor: 0, texto: "⚠️ Por sorte, a taxa não gerou problema imediato." },
+                { chance: 0.80, valor: -2000, texto: "⚠️ A taxa suspeita virou prejuízo. Você perdeu R$2000." }
             ]
         },
         {
             key: "renda extra",
             A: [
                 { chance: 0.70, valor: 0, texto: "💼 O bico pagou o combinado." },
-                { chance: 0.30, valor: -250, texto: "💼 O cliente pagou menos que prometeu. Você perdeu R$250 do ganho." }
+                { chance: 0.30, valor: -300, texto: "💼 Parte do pagamento atrasou. Você perdeu R$300 do resultado." }
             ],
             B: [
-                { chance: 0.80, valor: 0, texto: "💼 O meio período deu certo." },
-                { chance: 0.20, valor: -100, texto: "💼 O pagamento veio menor. Você perdeu R$100 do ganho." }
+                { chance: 0.85, valor: 0, texto: "💼 O meio período foi tranquilo e pagou certo." },
+                { chance: 0.15, valor: -100, texto: "💼 Veio um desconto inesperado no pagamento. Você perdeu R$100." }
             ],
             C: [
                 { chance: 1, valor: 0, texto: "😴 Você descansou e não teve gasto extra." }
             ]
         },
         {
-            key: "multa",
+            key: "compra por impulso",
             A: [
-                { chance: 0.85, valor: 0, texto: "🚗 Você pagou e resolveu." },
-                { chance: 0.15, valor: -100, texto: "🚗 Havia taxa administrativa junto. Perdeu R$100." }
+                { chance: 0.45, valor: 0, texto: "🛋️ A compra ficou no valor anunciado." },
+                { chance: 0.55, valor: -800, texto: "🛋️ Frete, montagem e parcelas extras pesaram. Você perdeu R$800." }
             ],
             B: [
-                { chance: 0.50, valor: 0, texto: "📄 O recurso ainda está em análise." },
-                { chance: 0.50, valor: -300, texto: "📄 O recurso foi negado e veio cobrança extra. Perdeu R$300." }
+                { chance: 0.75, valor: 0, texto: "🧺 O essencial coube no orçamento." },
+                { chance: 0.25, valor: -150, texto: "🧺 Alguns itens extras entraram no carrinho. Você perdeu R$150." }
             ],
             C: [
-                { chance: 0.20, valor: 0, texto: "🚗 Por enquanto nada aconteceu." },
-                { chance: 0.80, valor: -600, texto: "🚗 Ignorar gerou multa maior. Perdeu R$600." }
+                { chance: 1, valor: 0, texto: "✅ Esperar preservou sua entrada." }
             ]
         },
         {
-            key: "geladeira",
+            key: "investimento arriscado",
             A: [
-                { chance: 0.70, valor: 0, texto: "❄️ A geladeira nova resolveu tudo." },
-                { chance: 0.30, valor: -250, texto: "❄️ Entrega e instalação custaram mais. Perdeu R$250." }
+                { chance: 0.35, valor: 1500, texto: "📈 O investimento subiu e você ganhou mais R$1500." },
+                { chance: 0.65, valor: -3000, texto: "📉 O investimento caiu forte. Você perdeu R$3000." }
             ],
             B: [
-                { chance: 0.55, valor: 0, texto: "🔧 O conserto funcionou." },
-                { chance: 0.45, valor: -500, texto: "🔧 O conserto não durou e precisou de nova peça. Perdeu R$500." }
+                { chance: 0.80, valor: 0, texto: "🏦 A aplicação segura rendeu pouco, mas preservou o dinheiro." },
+                { chance: 0.20, valor: -100, texto: "🏦 Uma taxa reduziu o ganho. Você perdeu R$100." }
             ],
             C: [
-                { chance: 0.15, valor: 0, texto: "❄️ Você conseguiu improvisar por uma semana." },
-                { chance: 0.85, valor: -900, texto: "❄️ Alimentos estragaram e o problema piorou. Perdeu R$900." }
+                { chance: 1, valor: 0, texto: "🛡️ Você evitou volatilidade na reta final." }
             ]
         },
         {
-            key: "bônus",
+            key: "despesa inesperada",
             A: [
-                { chance: 0.90, valor: 0, texto: "💰 Você guardou o bônus." },
-                { chance: 0.10, valor: -100, texto: "💰 Uma pequena taxa caiu na conta. Perdeu R$100." }
+                { chance: 0.80, valor: 0, texto: "🔧 O profissional resolveu o problema." },
+                { chance: 0.20, valor: -250, texto: "🔧 Apareceu uma peça extra. Você perdeu R$250." }
             ],
             B: [
-                { chance: 0.70, valor: 0, texto: "💰 Você gastou só metade mesmo." },
-                { chance: 0.30, valor: -150, texto: "💰 Acabou gastando um pouco além do planejado. Perdeu R$150." }
+                { chance: 0.55, valor: 0, texto: "🔧 O básico segurou o problema." },
+                { chance: 0.45, valor: -700, texto: "🔧 A solução parcial não bastou. Você perdeu R$700." }
             ],
             C: [
-                { chance: 0.50, valor: 0, texto: "🍔 O bônus foi gasto como planejado." },
-                { chance: 0.50, valor: -200, texto: "🍔 O rolê ficou maior que o bônus. Perdeu mais R$200." }
+                { chance: 0.15, valor: 0, texto: "⏳ Por sorte, nada piorou agora." },
+                { chance: 0.85, valor: -1800, texto: "⏳ Adiar aumentou muito o prejuízo. Você perdeu R$1800." }
             ]
         },
         {
-            key: "escola",
+            key: "último esforço",
             A: [
-                { chance: 0.80, valor: 0, texto: "🏫 Você quitou a despesa escolar." },
-                { chance: 0.20, valor: -150, texto: "🏫 Veio uma taxa de material junto. Perdeu R$150." }
+                { chance: 0.75, valor: 0, texto: "📦 As vendas e o trabalho extra deram certo." },
+                { chance: 0.25, valor: -250, texto: "📦 Uma venda caiu e entrou menos dinheiro. Você perdeu R$250 do resultado." }
             ],
             B: [
-                { chance: 0.65, valor: 0, texto: "🏫 A negociação funcionou." },
-                { chance: 0.35, valor: -200, texto: "🏫 A escola aceitou negociar só parte. Perdeu mais R$200." }
+                { chance: 0.85, valor: 0, texto: "🪙 Você conseguiu economizar o planejado." },
+                { chance: 0.15, valor: -100, texto: "🪙 Um gasto pequeno apareceu. Você perdeu R$100." }
             ],
             C: [
-                { chance: 0.20, valor: 0, texto: "🏫 A cobrança ficou para depois." },
-                { chance: 0.80, valor: -600, texto: "🏫 Adiar gerou multa e cobrança extra. Perdeu R$600." }
+                { chance: 1, valor: 0, texto: "➡️ Sua rotina seguiu igual." }
             ]
         },
         {
-            key: "chuva",
+            key: "dinheiro suspeito",
             A: [
-                { chance: 0.75, valor: 0, texto: "🌧️ A manutenção resolveu o problema." },
-                { chance: 0.25, valor: -250, texto: "🌧️ A manutenção encontrou outro dano. Perdeu R$250." }
+                { chance: 0.20, valor: 0, texto: "⚠️ O dinheiro entrou, mas a origem continuou sendo um risco enorme." },
+                { chance: 0.80, valor: -8000, texto: "⚠️ A oferta virou cobrança pesada e prejuízo. Você perdeu R$8000." }
             ],
             B: [
-                { chance: 0.50, valor: 0, texto: "🌧️ O remendo segurou por enquanto." },
-                { chance: 0.50, valor: -500, texto: "🌧️ O remendo não segurou e a infiltração voltou. Perdeu R$500." }
+                { chance: 0.75, valor: 0, texto: "👨‍👩‍👧 A ajuda formal veio com combinado claro." },
+                { chance: 0.25, valor: -500, texto: "👨‍👩‍👧 Surgiu uma cobrança familiar antes do previsto. Você perdeu R$500." }
             ],
             C: [
-                { chance: 0.15, valor: 0, texto: "🌧️ Por sorte, nada piorou nesta semana." },
-                { chance: 0.85, valor: -800, texto: "🌧️ Esperar causou mais dano. Perdeu R$800." }
-            ]
-        },
-        {
-            key: "investimento",
-            A: [
-                { chance: 0.45, valor: 0, texto: "📈 O investimento alto manteve o ganho." },
-                { chance: 0.55, valor: -1000, texto: "📉 O investimento caiu forte. Você perdeu R$1000 do resultado." }
-            ],
-            B: [
-                { chance: 0.75, valor: 0, texto: "📈 O investimento pequeno ficou estável." },
-                { chance: 0.25, valor: -200, texto: "📉 O investimento oscilou um pouco. Perdeu R$200." }
-            ],
-            C: [
-                { chance: 1, valor: 0, texto: "🏦 Você não arriscou e manteve o dinheiro." }
-            ]
-        },
-        {
-            key: "pet",
-            A: [
-                { chance: 0.70, valor: 0, texto: "🐾 O tratamento resolveu." },
-                { chance: 0.30, valor: -250, texto: "🐾 Foram necessários exames extras. Perdeu R$250." }
-            ],
-            B: [
-                { chance: 0.45, valor: 0, texto: "🐾 O remédio ajudou." },
-                { chance: 0.55, valor: -500, texto: "🐾 O remédio não bastou e precisou de consulta. Perdeu R$500." }
-            ],
-            C: [
-                { chance: 0.15, valor: 0, texto: "🐾 O pet melhorou sozinho desta vez." },
-                { chance: 0.85, valor: -900, texto: "🐾 Esperar piorou o quadro. Perdeu R$900." }
-            ]
-        },
-        {
-            key: "último fôlego",
-            A: [
-                { chance: 0.65, valor: 0, texto: "💪 O bico pesado pagou certo." },
-                { chance: 0.35, valor: -300, texto: "💪 O pagamento atrasou parte do combinado. Perdeu R$300 do ganho." }
-            ],
-            B: [
-                { chance: 0.80, valor: 0, texto: "🪙 Você conseguiu economizar como planejou." },
-                { chance: 0.20, valor: -100, texto: "🪙 Um gasto pequeno apareceu. Perdeu R$100." }
-            ],
-            C: [
-                { chance: 1, valor: 0, texto: "😴 Você descansou e não alterou o saldo." }
-            ]
-        },
-        {
-            key: "fechar a conta",
-            A: [
-                { chance: 0.85, valor: 0, texto: "🎯 Você guardou tudo como planejado." },
-                { chance: 0.15, valor: -100, texto: "🎯 Uma taxa pequena apareceu no fechamento. Perdeu R$100." }
-            ],
-            B: [
-                { chance: 0.50, valor: 0, texto: "🛋️ O conforto ficou no valor combinado." },
-                { chance: 0.50, valor: -250, texto: "🛋️ O gasto com conforto passou do planejado. Perdeu mais R$250." }
-            ],
-            C: [
-                { chance: 1, valor: 0, texto: "🏦 Você manteve a reserva sem mexer." }
+                { chance: 1, valor: 0, texto: "🛡️ Você não arriscou sua segurança financeira no desespero." }
             ]
         }
     ];
-
     const selectedRule = rules.find(rule => title.includes(rule.key));
 
     if (!selectedRule || !selectedRule[choice]) {
@@ -1490,7 +1246,7 @@ function processRound() {
         tbody.innerHTML = `
             <tr>
                 <td colspan="4" style="text-align:center; font-weight:bold; color:#dc2626;">
-                    Ninguém conseguiu juntar o valor necessário para o carro.
+                    Ninguém conseguiu juntar o valor necessário para a entrada do apê.
                 </td>
             </tr>
         `;
@@ -1503,7 +1259,7 @@ function processRound() {
         let status = '';
 
         if (p.balance >= carGoal) {
-            status = '🚗 Conseguiu o carro';
+            status = '🏠 Conseguiu a entrada do apê';
         } else if (p.balance < 0) {
             status = '💳 Endividado';
         } else {
@@ -1530,7 +1286,7 @@ function processRound() {
 
         function endGame() {
     document.getElementById('leaderboard-title').innerText =
-        "🚗 RESULTADO FINAL: QUEM CONSEGUIU O CARRO?";
+        "🏠 RESULTADO FINAL: QUEM CONSEGUIU A ENTRADA DO APÊ?";
 
     document.getElementById('next-round-btn').classList.add('hidden');
 
